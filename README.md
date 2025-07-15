@@ -1,1 +1,3 @@
-# arthropod-detection-dataset
+![](resources/dataset_thumbnail.png)
+
+# French Arthropod Detection Dataset
