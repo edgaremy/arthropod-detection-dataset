@@ -68,9 +68,9 @@ If you want to try the detection model directly, you don't need to download the 
 
 ## Going further
 
-#### [Train a model from scratch using the dataset](/training/README.md)
+#### [Train a model from scratch using the dataset](/training)
 
-#### [Reproduce validation results](/validation/README.md)
+#### [Reproduce validation results](/validation)
 
 #
 # 🐞 🐜 🦋 🦗 🐝 🕷️ 🐛 🪰 🪲
