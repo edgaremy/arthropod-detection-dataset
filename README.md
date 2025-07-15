@@ -49,7 +49,7 @@ python dataset_src/download_dataset.py
 
 The `dataset_src/download_dataset.py` script downloads images from iNaturalist and creates the structure of the yolo dataset accordingly with the labels stored in `resources/dataset_labels.zip`
 
-*Note:* You can also download additional validation data, that was used to assess the generalization capabilities of the detection model.
+*Note:* You can also [download additional validation data](/validation/README.md#download-additional-validation-datasets), that was used to assess the generalization capabilities of the detection model.
 
 <br />
 
