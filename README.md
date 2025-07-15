@@ -8,6 +8,7 @@
 
 The data is extracted from [iNaturalist](https://www.inaturalist.org), and is designed to cover a **wide variety of arthropod families**. The data collection and annotation process is documented in this paper *(to be published)*.
 
+<br />
 
 ## Set up Python
 
@@ -35,13 +36,7 @@ The environment is now ready !
 *Note that you will need to activate the venv whenever you want to use it (see [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more details).*
 
 
-<!-- #### Option #2: Use already existing Python venv
-
-Install requirements with pip:
-```bash
-pip install -r requirements.txt
-``` -->
-
+<br />
 
 ## Download the dataset
 
@@ -55,9 +50,13 @@ The `dataset_src/download_dataset.py` script downloads images from iNaturalist a
 
 *Note:* You can also download additional validation data, that was used to assess the generalization capabilities of the detection model.
 
+<br />
+
 ## Use the detection model
 
 If you want to try the detection model directly, you don't need to download the dataset. ***TODO***
+
+<br />
 
 ## Going further
 
