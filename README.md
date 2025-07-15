@@ -12,28 +12,29 @@ The data is extracted from [iNaturalist](https://www.inaturalist.org), and is de
 
 ## Set up Python
 
-#### Clone repository
+### Clone repository
 
 ```bash
 git clone https://github.com/edgaremy/arthropod-detection-dataset.git
 cd arthropod-detection-dataset
 ```
 
-#### Set up Python venv using Conda
+### Set up Python venv using Conda
 
-- Make sure you first have [Conda installed](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+- Make sure you first have [conda installed](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 - Create a new conda virtual env:
 ```bash
 # You can replace "arthropod" by any name you like
 conda create --name arthropod python=3.12.1
 ```
-- You can now activate the venv, and install the requirements with pip:
+- You can now activate the venv, and install the requirements with pip (*if you already have another non-conda environment, you can do this directly*):
 ```bash
 pip install -r requirements.txt
 ```
 
-The environment is now ready !
-*Note that you will need to activate the venv whenever you want to use it (see [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more details).*
+**The environment is now ready !**
+
+*Note:* you will need to activate the venv whenever you want to use it (see [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more details).
 
 
 <br />
@@ -54,7 +55,7 @@ The `dataset_src/download_dataset.py` script downloads images from iNaturalist a
 
 ## Use the detection model
 
-If you want to try the detection model directly, you don't need to download the dataset. ***TODO***
+If you just want to try the detection model directly, you don't need to download the dataset. ***TODO***
 
 <br />
 
