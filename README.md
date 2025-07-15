@@ -6,12 +6,10 @@
 
 <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/resources/dataset_thumbnail.png?raw=true" width="400" align="center">
 
-The data is extracted from [iNaturalist](https://www.inaturalist.org), and is designed to cover a **wide variety of arthropod families**. The annotation process is documented in this paper *(to be published)*.
+The data is extracted from [iNaturalist](https://www.inaturalist.org), and is designed to cover a **wide variety of arthropod families**. The data collection and annotation process is documented in this paper *(to be published)*.
 
 
-## Installation
-
-You first need to setup a Python environment with the correct depedencies.
+## Set up Python
 
 #### Clone repository
 
@@ -20,9 +18,9 @@ git clone https://github.com/edgaremy/arthropod-detection-dataset.git
 cd arthropod-detection-dataset
 ```
 
-#### Option #1: Setup Python venv with Conda
+#### Set up Python venv using Conda
 
-- Make sure you first have Conda installed
+- Make sure you first have [Conda installed](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 - Create a new conda virtual env:
 ```bash
 # You can replace "arthropod" by any name you like
@@ -33,21 +31,16 @@ conda create --name arthropod python=3.12.1
 pip install -r requirements.txt
 ```
 
-The environment is now ready ! Note that you will need to activate the venv whenever you want to use it (and deactivate it when you're done):
-```bash
-# Activate the new venv:
-conda activate arthropod
+The environment is now ready !
+*Note that you will need to activate the venv whenever you want to use it (see [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for more details).*
 
-# Deactivate
-conda deactivate
-```
 
-#### Option #2: Use already existing Python venv
+<!-- #### Option #2: Use already existing Python venv
 
 Install requirements with pip:
 ```bash
 pip install -r requirements.txt
-```
+``` -->
 
 
 ## Download the dataset

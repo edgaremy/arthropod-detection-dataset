@@ -1,6 +1,6 @@
 # Validation of the YOLO model
 
-Once you have [set up Python](../README.md#installation) and [downloaded the initial dataset](../README.md#download-the-dataset), you can run various validation task in order to reproduce our results.
+Once you have [set up Python](../README.md#set-up-python) and [downloaded the initial dataset](../README.md#download-the-dataset), you can run various validation task in order to reproduce our results.
 
 ## Basic performance test
 
