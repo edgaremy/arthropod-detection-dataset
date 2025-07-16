@@ -2,7 +2,8 @@
 
 ### A detection dataset containing labelled images of **French Terrestrial Arthropods**. 
 
-#### Associated Paper: *To be published*
+**Associated Paper: *To be published*** \
+**Model Page: [huggingface.co/edgaremy/arthropod-detector](https://huggingface.co/edgaremy/arthropod-detector)** 
 
 <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/resources/dataset_thumbnail.png?raw=true" width="400" align="center">
 
@@ -56,6 +57,35 @@ The `src/download_dataset.py` script downloads images from iNaturalist and creat
 ## Use the detection model
 
 If you just want to try the detection model directly, you don't need to download the dataset. ***TODO***
+
+### Usage example
+
+Try it using the `src/inference.py` example:
+```bash
+python src/inference.py <path_to_your_image> --size l --verbose
+```
+For more details, you can type `python src/inference.py --help`
+
+### Load the model in your Python code
+
+```python
+from ultralytics import YOLO
+from huggingface_hub import hf_hub_download
+
+# Download weights from Hugging Face Hub
+weights = hf_hub_download(
+    repo_id="edgaremy/arthropod-detector",
+    filename="yolo11l_arthropod_0.413.pt"
+    )
+
+# Load the model with Ultralytics YOLO
+model = YOLO(weights)
+```
+
+For more details, check out:
+- The source code of [`src/inference.py`](src/inference.py)
+- The dedicated **Hugging Face [Model Repo](https://huggingface.co/edgaremy/arthropod-detector)** 🤗
+- [Ultralytics Documentation](https://docs.ultralytics.com/)
 
 <br />
 
