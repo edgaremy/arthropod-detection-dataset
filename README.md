@@ -25,7 +25,7 @@ cd arthropod-detection-dataset
 - Create a new conda virtual env:
 ```bash
 # You can replace "arthropod" by any name you like
-conda create --name arthropod python=3.12.1
+conda create --name arthropod python=3.12.11
 ```
 - You can now activate the venv, and install the requirements with pip (*if you already have another non-conda environment, you can do this directly*):
 ```bash
