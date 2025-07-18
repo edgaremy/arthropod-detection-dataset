@@ -96,4 +96,4 @@ For more details, check out:
 #### [Reproduce validation results](/validation)
 
 #
-# 🐞 🐜 🦋 🦗 🐝 🕷️ 🐛 🪰 🪲
+# [🐞](https://www.gbif.org/species/165599324)  [🐜](https://www.gbif.org/species/4342)  [🦋](https://www.gbif.org/species/797)  [🦗](https://www.gbif.org/species/1718308)  [🐝](https://www.gbif.org/species/1341976)  [🕷️](https://www.gbif.org/species/1496)  [🐛](https://www.gbif.org/species/797)  [🪰](https://www.gbif.org/species/1524843)  [🪲](https://www.gbif.org/species/1043502)
