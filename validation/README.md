@@ -17,7 +17,7 @@ Note: This part can be skipped if you just want to play around with the plots us
 
 ### Hierarchical Performance
 
-```python
+```bash
 python validation/plot_from_metrics/hierarchical_perfs/plot_hierarchical_perfs.py
 ```
  Running this script allows you to get the plots in the [`hierarchical_perfs/plots`](plot_from_metrics/hierarchical_perfs/plots) folder, such as:
@@ -30,7 +30,7 @@ python validation/plot_from_metrics/hierarchical_perfs/plot_hierarchical_perfs.p
 
  Running the scripts below allows you to get the plots in the [`perfs_vs_img_properties/plots`](plot_from_metrics/perfs_vs_img_properties/plots) folder, such as:
 
-```python
+```bash
 python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_size_perf.py
 ```
 
@@ -38,7 +38,7 @@ python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_size_perf.
 
 or
 
-```python
+```bash
 python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_number_perf.py
 ```
  <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_number_F1_11l.png?raw=true" width="300" align="center">
