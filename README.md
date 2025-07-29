@@ -19,8 +19,15 @@ The data is extracted from [iNaturalist](https://www.inaturalist.org), and is de
 git clone https://github.com/edgaremy/arthropod-detection-dataset.git
 cd arthropod-detection-dataset
 ```
+### Option #1: Quick setup
+If you already know how to use Python environments, here are the librairies you need to install:
 
-### Set up Python venv using Conda
+```bash
+pip install ultralytics wget huggingface_hub seaborn pingouin
+```
+This should suffice, though if you encounter any dependency issues, or want to reproduce the exact setup that was use to get our results, please favor option #2 below.
+
+### Option #2: For reproducibility - Set up Python venv using Conda
 
 - Make sure you first have [conda installed](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
 - Create a new conda virtual env:
