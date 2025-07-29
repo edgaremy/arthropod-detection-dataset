@@ -17,31 +17,36 @@ Note: This part can be skipped if you just want to play around with the plots us
 
 ### Hierarchical Performance
 
+To get the plots in the [`hierarchical_perfs/plots`](plot_from_metrics/hierarchical_perfs/plots) folder, such as:
+
+ <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/hierarchical_perfs/plots/class_perfs_yolo11l.png?raw=true" width="400" align="center">
+
+You can run :
+
+
 ```bash
 python validation/plot_from_metrics/hierarchical_perfs/plot_hierarchical_perfs.py
 ```
- Running this script allows you to get the plots in the [`hierarchical_perfs/plots`](plot_from_metrics/hierarchical_perfs/plots) folder, such as:
-
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/hierarchical_perfs/plots/class_perfs_yolo11l.png?raw=true" width="400" align="center">
 
 
 ### Performance according to image properties
 
+To get the plots in the [`perfs_vs_img_properties/plots`](plot_from_metrics/perfs_vs_img_properties/plots) folder, such as:
 
- Running the scripts below allows you to get the plots in the [`perfs_vs_img_properties/plots`](plot_from_metrics/perfs_vs_img_properties/plots) folder, such as:
+ <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_size_IoU_11l.png?raw=true" width="350" align="center">
 
+and
+
+ <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_number_F1_11l.png?raw=true" width="350" align="center">
+
+You can run respectively :
 ```bash
 python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_size_perf.py
 ```
-
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_size_IoU_11l.png?raw=true" width="300" align="center">
-
-or
-
+and 
 ```bash
 python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_number_perf.py
 ```
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_number_F1_11l.png?raw=true" width="300" align="center">
 
 ## Download additional validation datasets
 
