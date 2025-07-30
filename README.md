@@ -23,7 +23,7 @@ cd arthropod-detection-dataset
 If you already know how to use Python environments, here are the librairies you need to install:
 
 ```bash
-pip install ultralytics wget huggingface_hub seaborn pingouin
+pip install ultralytics wget huggingface_hub seaborn pingouin pypalettes
 ```
 This should suffice, though if you encounter any dependency issues, or want to reproduce the exact setup that was use to get our results, please favor option #2 below.
 
