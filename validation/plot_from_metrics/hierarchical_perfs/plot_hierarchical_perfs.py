@@ -32,7 +32,7 @@ def hierarchical_benchmark(csv_path, blacklist=None):
 
     results = {}
     for level in ['class', 'order', 'family', 'genus', 'specie']:
-        grouped = df.groupby(level).apply(calculate_metrics).reset_index()
+        grouped = df.groupby(level).apply(calculate_metrics, include_groups=False).reset_index()
         grouped['count'] = df.groupby(level).size().values
         results[level] = grouped
     
