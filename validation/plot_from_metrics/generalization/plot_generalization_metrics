@@ -1,0 +1,118 @@
+import pandas as pd
+import ast
+import matplotlib.pyplot as plt
+from pypalettes import load_cmap
+
+def calculate_metrics(group):
+    TP = group['TP'].sum()
+    FP = group['FP'].sum()
+    FN = group['FN'].sum()
+    group['IoUs'] = group['IoUs'].apply(lambda x: ast.literal_eval(x))
+    IoUs = group['IoUs'].sum()
+
+    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
+    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
+    mean_IoU = sum(IoUs) / len(IoUs) if len(IoUs) > 0 else 0
+    F1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+    
+    return pd.Series({
+        'precision': precision,
+        'recall': recall,
+        'mean_IoU': mean_IoU,
+        'F1': F1
+    })
+
+def hierarchical_benchmark(csv_path, blacklist=None, print_metrics=False):
+    df = pd.read_csv(csv_path)
+    
+    # Remove blacklisted entries for all levels
+    if blacklist is not None:
+        for level, items in blacklist.items():
+            df = df[~df[level].isin(items)]
+
+    results = {}
+    
+    # add image level to results:
+    df['line'] = range(len(df)) # add line number to the dataframe
+    grouped = df.groupby('line').apply(calculate_metrics, include_groups=False).reset_index()
+    grouped['count'] = df.groupby('line').size().values
+    results['image'] = grouped
+
+    # Print metrics for image level
+    if print_metrics:
+        print("Image level metrics:")
+        print(results['image'][['precision', 'recall', 'mean_IoU', 'F1']].mean())
+
+    return results
+
+def plot_mean_metrics(list_of_results, labels, output, figsize=(12, 9), bar_width=0.8):
+    plt.rcParams["font.sans-serif"] = ["Nimbus Sans"]
+    plt.rcParams['font.size'] = 24
+    # slightly less black text:
+    ratio = '0.15'
+    plt.rcParams['text.color'] = ratio 
+    plt.rcParams['xtick.color'] = ratio
+    plt.rcParams['ytick.color'] = ratio
+    plt.rcParams['axes.labelcolor'] = ratio
+
+    fig, ax = plt.subplots(figsize=figsize)
+    metrics = ['F1', 'precision', 'recall', 'mean_IoU']
+    
+    data_list = []
+    for results in list_of_results:
+        data = results['image']
+        data_list.append(data[metrics].mean())
+    
+    # Custom color palette
+    colors = load_cmap("Egypt").colors
+    colors = [colors[i] for i in [1, 3, 2, 0]]  # change order of colors
+    
+    means_df = pd.DataFrame(data_list, index=labels)
+    bars = means_df.T.plot(kind='bar', ax=ax, width=bar_width, color=colors)
+    
+    # Add value labels on top of each bar
+    for container in ax.containers:
+        # Display perfs with format .90
+        ax.bar_label(container, fmt=lambda x: f'.{x:.2f}'[2:], fontsize=20, padding=6)
+    
+    ax.set_title('Mean metrics')
+    ax.set_ylim(0.5, 1)
+    ax.set_xticklabels(metrics, rotation=0)
+    ax.grid(True, which='both', linestyle='--', linewidth=0.5, axis='y')
+    ax.set_axisbelow(True)
+    ax.set_yticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])  # Set y-axis ticks at 0.1 increments
+
+    # Remove the black rectangle around the plot
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+    
+    # Remove small ticks next to the numbers
+    ax.tick_params(which='both', direction='in', length=0)
+    # Number further from the axis
+    ax.tick_params(axis='both', which='major', pad=10)
+
+    plt.tight_layout()
+    legend = plt.legend(labels, loc='lower right')
+    legend.get_frame().set_alpha(0.9)  # Set higher alpha value for legend background
+
+    plt.savefig(output)
+
+# Example usage:
+
+# YOLO11L:
+yolo_model = "conf0.413yolo11l"
+output_name = "_11l"
+
+# YOLO11N:
+# yolo_model = "conf0.437yolo11n"
+# output_name = "_11n"
+
+blacklist = None
+same_species = hierarchical_benchmark('validation/metrics/validation_'+ yolo_model +'.csv', blacklist=blacklist, print_metrics=True)
+same_genus = hierarchical_benchmark('validation/metrics/same_genus_' + yolo_model + '.csv', blacklist=blacklist)
+other_genus = hierarchical_benchmark('validation/metrics/other_genus_' + yolo_model + '.csv', blacklist=blacklist)
+other_families = hierarchical_benchmark('validation/metrics/other_families_' + yolo_model + '.csv', blacklist=blacklist)
+
+list_of_results = [same_species, same_genus, other_genus, other_families]
+labels = ['Same species', 'Same genus', 'Other genus', 'Other families']
+plot_mean_metrics(list_of_results, labels, 'validation/plot_from_metrics/generalization/plots/generalization'+ output_name + '.png')
