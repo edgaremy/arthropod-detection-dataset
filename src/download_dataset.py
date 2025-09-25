@@ -50,7 +50,9 @@ def get_images_from_inat(src_csv, dest_file, img_size="original"):
 				os.makedirs(split_dir, exist_ok=True)
 				
 				target_dest = os.path.join(split_dir, f"{taxon_id}_{photo_id}.{extension}")
-
+				if os.path.exists(target_dest): # skip already downloaded images
+					pbar.update(1)
+					continue
 				image_url = f"https://inaturalist-open-data.s3.amazonaws.com/photos/{photo_id}/{img_size}.{extension}"
 				get_image(image_url, target_dest, pbar)
 
