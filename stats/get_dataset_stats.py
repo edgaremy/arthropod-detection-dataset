@@ -129,8 +129,15 @@ def generate_histograms(clean_df, stats_folder='stats'):
         stats_folder (str): Folder to save histogram files
     """
     # Set style for better looking plots
-    plt.style.use('default')
-    sns.set_palette("husl")
+    plt.style.use('seaborn-v0_8')
+    
+    # Define consistent color palette
+    colors = {
+        'class': '#2E86AB',      # Deep blue
+        'order': '#A23B72',      # Deep magenta
+        'family': '#F18F01',     # Orange
+        'stats_box': '#F5F5DC',  # Beige for stats boxes
+    }
     
     # Create stats folder if it doesn't exist
     os.makedirs(stats_folder, exist_ok=True)
@@ -139,7 +146,7 @@ def generate_histograms(clean_df, stats_folder='stats'):
     plt.figure(figsize=(12, 8))
     class_counts = clean_df['class'].value_counts()
     
-    class_counts.plot(kind='bar', color='skyblue', edgecolor='black')
+    ax = class_counts.plot(kind='bar', color=colors['class'], edgecolor='white', linewidth=0.8, alpha=0.8)
     
     # Calculate statistics for legend
     class_mean = class_counts.mean()
@@ -147,20 +154,24 @@ def generate_histograms(clean_df, stats_folder='stats'):
     class_min = class_counts.min()
     class_max = class_counts.max()
     
-    plt.title(f'Distribution by Class\n({len(class_counts)} unique classes)', fontsize=14, fontweight='bold')
-    plt.xlabel('Class', fontsize=12)
-    plt.ylabel('Number of Images', fontsize=12)
-    plt.xticks(rotation=45, ha='right')
-    plt.grid(axis='y', alpha=0.3)
+    plt.title(f'Distribution by Class\n({len(class_counts)} unique classes)', 
+              fontsize=16, fontweight='bold', pad=20)
+    plt.xlabel('Class', fontsize=13, fontweight='bold')
+    plt.ylabel('Number of Images', fontsize=13, fontweight='bold')
+    plt.xticks(rotation=45, ha='right', fontsize=11)
+    plt.yticks(fontsize=11)
+    plt.grid(axis='y', alpha=0.3, linestyle='--')
     
     # Add statistical info as text box
     stats_text = f'Mean: {class_mean:.1f}\nStd: {class_std:.1f}\nMin: {class_min}\nMax: {class_max}'
-    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=10,
-             verticalalignment='top', horizontalalignment='right', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=14,
+             verticalalignment='top', horizontalalignment='right', 
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='lightgray', alpha=0.9, edgecolor='gray'))
     
-    # Add value labels on bars
+    # Add value labels on bars with better styling
     for i, v in enumerate(class_counts.values):
-        plt.text(i, v + max(class_counts.values) * 0.01, str(v), ha='center', fontweight='bold')
+        plt.text(i, v + max(class_counts.values) * 0.01, f'{v:,}', 
+                ha='center', va='bottom', fontweight='bold', fontsize=10)
     
     plt.tight_layout()
     plt.savefig(os.path.join(stats_folder, 'class_distribution.png'), dpi=300, bbox_inches='tight')
@@ -170,7 +181,7 @@ def generate_histograms(clean_df, stats_folder='stats'):
     plt.figure(figsize=(20, 12))
     order_counts = clean_df['order'].value_counts()
     
-    order_counts.plot(kind='bar', color='lightcoral', edgecolor='black')
+    ax = order_counts.plot(kind='bar', color=colors['order'], edgecolor='white', linewidth=0.8, alpha=0.8)
     
     # Calculate statistics for legend
     order_mean = order_counts.mean()
@@ -178,22 +189,26 @@ def generate_histograms(clean_df, stats_folder='stats'):
     order_min = order_counts.min()
     order_max = order_counts.max()
     
-    plt.title(f'Complete Orders Distribution\n({clean_df["order"].nunique()} unique orders)', fontsize=16, fontweight='bold')
-    plt.xlabel('Order', fontsize=14)
-    plt.ylabel('Number of Images', fontsize=14)
-    plt.xticks(rotation=45, ha='right', fontsize=8)
-    plt.grid(axis='y', alpha=0.3)
+    plt.title(f'Complete Orders Distribution\n({clean_df["order"].nunique()} unique orders)', 
+              fontsize=18, fontweight='bold', pad=20)
+    plt.xlabel('Order', fontsize=15, fontweight='bold')
+    plt.ylabel('Number of Images', fontsize=15, fontweight='bold')
+    plt.xticks(rotation=45, ha='right', fontsize=9)
+    plt.yticks(fontsize=12)
+    plt.grid(axis='y', alpha=0.3, linestyle='--')
     
     # Add statistical info as text box
     stats_text = f'Mean: {order_mean:.1f}\nStd: {order_std:.1f}\nMin: {order_min}\nMax: {order_max}'
-    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=12,
-             verticalalignment='top', horizontalalignment='right', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=16,
+             verticalalignment='top', horizontalalignment='right', 
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='lightgray', alpha=0.9, edgecolor='gray'))
     
     # Add value labels on bars (only for bars with significant height to avoid clutter)
     max_val = max(order_counts.values)
     for i, v in enumerate(order_counts.values):
         if v > max_val * 0.02:  # Only show labels for bars > 2% of max value
-            plt.text(i, v + max_val * 0.01, str(v), ha='center', fontsize=8, fontweight='bold')
+            plt.text(i, v + max_val * 0.01, f'{v:,}', 
+                    ha='center', va='bottom', fontweight='bold', fontsize=9)
     
     plt.tight_layout()
     plt.savefig(os.path.join(stats_folder, 'order_distribution.png'), dpi=300, bbox_inches='tight')
@@ -203,7 +218,7 @@ def generate_histograms(clean_df, stats_folder='stats'):
     plt.figure(figsize=(25, 15))
     family_counts = clean_df['family'].value_counts()
     
-    family_counts.plot(kind='bar', color='lightgreen', edgecolor='black')
+    ax = family_counts.plot(kind='bar', color=colors['family'], edgecolor='white', linewidth=0.5, alpha=0.8)
     
     # Calculate statistics for legend
     family_mean = family_counts.mean()
@@ -211,16 +226,19 @@ def generate_histograms(clean_df, stats_folder='stats'):
     family_min = family_counts.min()
     family_max = family_counts.max()
     
-    plt.title(f'Complete Families Distribution\n({clean_df["family"].nunique()} unique families)', fontsize=18, fontweight='bold')
-    plt.xlabel('Families (ordered by frequency)', fontsize=16)
-    plt.ylabel('Number of Images', fontsize=16)
+    plt.title(f'Complete Families Distribution\n({clean_df["family"].nunique()} unique families)', 
+              fontsize=20, fontweight='bold', pad=25)
+    plt.xlabel('Families (ordered by frequency)', fontsize=17, fontweight='bold')
+    plt.ylabel('Number of Images', fontsize=17, fontweight='bold')
     plt.xticks([])  # Remove x-axis labels since there are too many families
-    plt.grid(axis='y', alpha=0.3)
+    plt.yticks(fontsize=14)
+    plt.grid(axis='y', alpha=0.3, linestyle='--')
     
     # Add statistical info as text box
     stats_text = f'Mean: {family_mean:.1f}\nStd: {family_std:.1f}\nMin: {family_min}\nMax: {family_max}'
-    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=14,
-             verticalalignment='top', horizontalalignment='right', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+    plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes, fontsize=18,
+             verticalalignment='top', horizontalalignment='right', 
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='lightgray', alpha=0.9, edgecolor='gray'))
     
     plt.tight_layout()
     plt.savefig(os.path.join(stats_folder, 'family_distribution.png'), dpi=300, bbox_inches='tight')
