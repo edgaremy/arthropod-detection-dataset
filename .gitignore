@@ -2,3 +2,5 @@
 /dataset/labels
 /output
 .vscode
+/runs
+yolo11*.pt

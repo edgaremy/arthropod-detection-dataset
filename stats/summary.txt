@@ -1,0 +1,75 @@
+==================================================
+DATASET TAXONOMIC STATISTICS
+==================================================
+Total images: 13,582
+Images with taxonomic info: 13,582
+Coverage: 100.0%
+
+Taxonomic Diversity:
+  Classes:   11
+  Orders:    67
+  Families:  749
+  Genera:    886
+  Species:   979
+  Taxon IDs: 979
+
+Distribution by Split:
+       Images  Classes  Orders  Families
+split                                   
+test     2028       11      67       749
+train    9697       11      67       749
+val      1857       10      62       684
+
+Top 10 Most Represented Classes:
+  Insecta: 10,565 images
+  Arachnida: 1,602 images
+  Malacostraca: 410 images
+  Branchiopoda: 278 images
+  Entognatha: 277 images
+  Diplopoda: 237 images
+  Chilopoda: 154 images
+  Hexanauplia: 33 images
+  Ichthyostraca: 11 images
+  Ostracoda: 9 images
+
+Class Statistics:
+  Mean images per class: 1234.7
+  Standard deviation: 3127.6
+  Min images per class: 6
+  Max images per class: 10565
+
+Top 10 Most Represented Orders:
+  Coleoptera: 2,187 images
+  Diptera: 1,642 images
+  Lepidoptera: 1,601 images
+  Hemiptera: 1,476 images
+  Hymenoptera: 1,202 images
+  Araneae: 999 images
+  Psocodea: 407 images
+  Trichoptera: 357 images
+  Isopoda: 331 images
+  Orthoptera: 283 images
+
+Order Statistics:
+  Mean images per order: 202.7
+  Standard deviation: 439.0
+  Min images per order: 2
+  Max images per order: 2187
+
+Top 10 Most Represented Families:
+  Noteridae: 22 images
+  Phalangodidae: 22 images
+  Cladonychiidae: 22 images
+  Goeridae: 22 images
+  Epipsocidae: 22 images
+  Neobisiidae: 22 images
+  Trachelipodidae: 22 images
+  Tiphiidae: 22 images
+  Nemastomatidae: 22 images
+  Gelechiidae: 22 images
+
+Family Statistics:
+  Mean images per family: 18.1
+  Standard deviation: 6.6
+  Min images per family: 2
+  Max images per family: 22
