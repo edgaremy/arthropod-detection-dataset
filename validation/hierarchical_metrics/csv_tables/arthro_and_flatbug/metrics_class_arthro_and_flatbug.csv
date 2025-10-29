@@ -1,0 +1,12 @@
+class,count,F1,precision,recall,mean_IoU
+Ichthyostraca,2,1.0,1.0,1.0,0.9437
+Ostracoda,3,1.0,1.0,1.0,0.9106
+Chilopoda,21,0.9,0.9474,0.8571,0.8616
+Hexanauplia,10,0.9,0.9,0.9,0.8405
+Arachnida,246,0.8627,0.949,0.7908,0.8835
+Insecta,1559,0.8584,0.9242,0.8014,0.8885
+Pauropoda,3,0.8571,0.75,1.0,0.7845
+Diplopoda,38,0.8302,0.88,0.7857,0.88
+Malacostraca,63,0.6598,0.8421,0.5424,0.8176
+Entognatha,38,0.5728,0.9077,0.4184,0.804
+Branchiopoda,45,0.5414,0.8,0.4091,0.7866
