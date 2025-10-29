@@ -136,7 +136,7 @@ scenarios = [
 
 for model_name in scenarios:
     output_dir = 'validation/hierarchical_metrics/csv_tables/' + model_name
-    validation_csv = 'validation/flatbug/validation_' + model_name + '.csv'
+    validation_csv = 'validation/metrics/validation_' + model_name + '.csv'
     blacklist = None # or e.g. blacklist = {'class': ['Pauropoda', 'Ostracoda', 'Ichthyostraca']}
     print(f"Loading validation data from: {validation_csv}")
     results = hierarchical_benchmark(validation_csv, blacklist=blacklist)
