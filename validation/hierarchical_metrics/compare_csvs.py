@@ -37,6 +37,7 @@ def compare_scenarios(scenarios, csv_folder_base, level='class', metric='F1', ou
     
     # Load all scenario data
     scenario_data = {}
+    count_data = None  # Store count data from first scenario
     for folder_name, display_name in scenarios.items():
         csv_path = os.path.join(csv_folder_base, folder_name, f'metrics_{level}_{folder_name}.csv')
         csv_path = os.path.join(csv_folder_base, folder_name, f'metrics_{level}_{folder_name}.csv')
@@ -48,6 +49,11 @@ def compare_scenarios(scenarios, csv_folder_base, level='class', metric='F1', ou
         df = pd.read_csv(csv_path)
         # Store only the taxon name and the metric of interest, using display name as key
         scenario_data[display_name] = df[[level, metric]].set_index(level)
+        
+        # Store count data from the first scenario
+        if count_data is None:
+            count_data = df[[level, 'count']].set_index(level)
+        
         print(f"Loaded {len(df)} {level}s for scenario: {display_name} (folder: {folder_name})")
     
     if not scenario_data:
@@ -63,8 +69,14 @@ def compare_scenarios(scenarios, csv_folder_base, level='class', metric='F1', ou
     # Reset index to make the taxonomic level a column
     comparison_df = comparison_df.reset_index()
     
+    # Add number_of_images column from count data
+    if count_data is not None:
+        count_data_reset = count_data.reset_index()
+        count_data_reset = count_data_reset.rename(columns={'count': 'number_of_images'})
+        comparison_df = pd.merge(comparison_df, count_data_reset, on=level, how='left')
+    
     # Add summary statistics
-    metric_columns = [col for col in comparison_df.columns if col != level]
+    metric_columns = [col for col in comparison_df.columns if col != level and col != 'number_of_images']
     comparison_df['mean'] = comparison_df[metric_columns].mean(axis=1)
     comparison_df['std'] = comparison_df[metric_columns].std(axis=1)
     comparison_df['min'] = comparison_df[metric_columns].min(axis=1)
@@ -75,12 +87,18 @@ def compare_scenarios(scenarios, csv_folder_base, level='class', metric='F1', ou
     comparison_df['best_scenario'] = comparison_df[metric_columns].idxmax(axis=1).str.replace(f'_{metric}', '')
     comparison_df['best_value'] = comparison_df[metric_columns].max(axis=1)
     
-    # Sort by mean performance (descending)
-    comparison_df = comparison_df.sort_values('mean', ascending=False)
-    
     # Round numeric values
-    numeric_cols = [col for col in comparison_df.columns if col != level and col != 'best_scenario']
+    numeric_cols = [col for col in comparison_df.columns if col != level and col != 'best_scenario' and col != 'number_of_images']
     comparison_df[numeric_cols] = comparison_df[numeric_cols].round(4)
+    
+    # Reorder columns to put number_of_images right after the taxonomic level
+    if 'number_of_images' in comparison_df.columns:
+        cols = [level, 'number_of_images'] + [col for col in comparison_df.columns if col not in [level, 'number_of_images']]
+        comparison_df = comparison_df[cols]
+    
+    # Sort by number_of_images (descending) - do this last
+    if 'number_of_images' in comparison_df.columns:
+        comparison_df = comparison_df.sort_values('number_of_images', ascending=False).reset_index(drop=True)
     
     # Save to CSV if output path is provided
     if output_path:

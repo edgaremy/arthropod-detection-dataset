@@ -37,7 +37,7 @@ def hierarchical_benchmark(csv_path, blacklist=None):
     
     return results
 
-def export_metrics_to_csv(results, level, output_path, sort_by='F1', ascending=False):
+def export_metrics_to_csv(results, level, output_path, sort_by='count', ascending=False):
     """
     Export metrics for a specific taxonomic level to a CSV file.
     
@@ -45,22 +45,21 @@ def export_metrics_to_csv(results, level, output_path, sort_by='F1', ascending=F
         results: Dictionary containing metrics for all levels
         level: Taxonomic level to export ('class', 'order', 'family', 'genus', 'specie')
         output_path: Path to save the CSV file
-        sort_by: Column to sort by (default: 'F1')
+        sort_by: Column to sort by (default: 'count')
         ascending: Sort order (default: False for descending)
     """
     data = results[level].copy()
     
-    # Sort the data
-    if sort_by in data.columns:
-        data = data.sort_values(by=sort_by, ascending=ascending)
-    
-    # Reorder columns for better readability
+    # Reorder columns for better readability first
     column_order = [level, 'count', 'F1', 'precision', 'recall', 'mean_IoU']
     data = data[column_order]
     
     # Round numeric values for cleaner output
     numeric_columns = ['F1', 'precision', 'recall', 'mean_IoU']
     data[numeric_columns] = data[numeric_columns].round(4)
+    
+    # Sort the data by count (number of images) in descending order - do this LAST
+    data = data.sort_values(by='count', ascending=False).reset_index(drop=True)
     
     # Save to CSV
     data.to_csv(output_path, index=False)
@@ -95,7 +94,7 @@ def export_all_metrics(results, output_dir, model_name='model'):
     # Export each taxonomic level (we only need class and order)
     for level in ['class', 'order']:
         output_path = os.path.join(output_dir, f'metrics_{level}_{model_name}.csv')
-        export_metrics_to_csv(results, level, output_path, sort_by='F1', ascending=False)
+        export_metrics_to_csv(results, level, output_path, sort_by='count', ascending=False)
     
     # Create a combined summary CSV with overall statistics
     summary_data = []

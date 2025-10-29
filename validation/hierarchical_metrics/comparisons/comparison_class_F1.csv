@@ -1,12 +1,12 @@
-class,ArthroNat_F1,flatbug_F1,ArthroNat+flatbug_F1,ArthroNat mosaic3x3_F1,ArthroNat mosaic4x4_F1,ArthroNat no mosaic_F1,mean,std,min,max,range,best_scenario,best_value
-Ichthyostraca,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,0.0,ArthroNat,1.0
-Ostracoda,1.0,0.8,1.0,1.0,1.0,1.0,0.9667,0.0816,0.8,1.0,0.2,ArthroNat,1.0
-Arachnida,0.845,0.7338,0.8627,0.8683,0.8399,0.8388,0.8314,0.0494,0.7338,0.8683,0.1345,ArthroNat mosaic3x3,0.8683
-Insecta,0.8464,0.7327,0.8584,0.8463,0.8339,0.8208,0.8231,0.0461,0.7327,0.8584,0.1257,ArthroNat+flatbug,0.8584
-Hexanauplia,0.8571,0.6364,0.9,0.9,0.9,0.6667,0.81,0.1242,0.6364,0.9,0.2636,ArthroNat+flatbug,0.9
-Chilopoda,0.8205,0.5143,0.9,0.8718,0.6829,0.7907,0.7634,0.1435,0.5143,0.9,0.3857,ArthroNat+flatbug,0.9
-Diplopoda,0.844,0.425,0.8302,0.8235,0.8155,0.7143,0.7421,0.1622,0.425,0.844,0.419,ArthroNat,0.844
-Pauropoda,0.8,0.2222,0.8571,1.0,0.6667,0.5,0.6743,0.2793,0.2222,1.0,0.7778,ArthroNat mosaic3x3,1.0
-Malacostraca,0.6316,0.337,0.6598,0.6701,0.6935,0.6044,0.5994,0.1322,0.337,0.6935,0.3565,ArthroNat mosaic4x4,0.6935
-Branchiopoda,0.5238,0.4769,0.5414,0.5797,0.5294,0.5271,0.5297,0.0331,0.4769,0.5797,0.1028,ArthroNat mosaic3x3,0.5797
-Entognatha,0.5419,0.3297,0.5728,0.5294,0.5541,0.4421,0.495,0.0928,0.3297,0.5728,0.2431,ArthroNat+flatbug,0.5728
+class,number_of_images,ArthroNat_F1,flatbug_F1,ArthroNat+flatbug_F1,ArthroNat mosaic3x3_F1,ArthroNat mosaic4x4_F1,ArthroNat no mosaic_F1,mean,std,min,max,range,best_scenario,best_value
+Insecta,1559,0.8464,0.7327,0.8584,0.8463,0.8339,0.8208,0.8231,0.0461,0.7327,0.8584,0.1257,ArthroNat+flatbug,0.8584
+Arachnida,246,0.845,0.7338,0.8627,0.8683,0.8399,0.8388,0.8314,0.0494,0.7338,0.8683,0.1345,ArthroNat mosaic3x3,0.8683
+Malacostraca,63,0.6316,0.337,0.6598,0.6701,0.6935,0.6044,0.5994,0.1322,0.337,0.6935,0.3565,ArthroNat mosaic4x4,0.6935
+Branchiopoda,45,0.5238,0.4769,0.5414,0.5797,0.5294,0.5271,0.5297,0.0331,0.4769,0.5797,0.1028,ArthroNat mosaic3x3,0.5797
+Diplopoda,38,0.844,0.425,0.8302,0.8235,0.8155,0.7143,0.7421,0.1622,0.425,0.844,0.419,ArthroNat,0.844
+Entognatha,38,0.5419,0.3297,0.5728,0.5294,0.5541,0.4421,0.495,0.0928,0.3297,0.5728,0.2431,ArthroNat+flatbug,0.5728
+Chilopoda,21,0.8205,0.5143,0.9,0.8718,0.6829,0.7907,0.7634,0.1435,0.5143,0.9,0.3857,ArthroNat+flatbug,0.9
+Hexanauplia,10,0.8571,0.6364,0.9,0.9,0.9,0.6667,0.81,0.1242,0.6364,0.9,0.2636,ArthroNat+flatbug,0.9
+Ostracoda,3,1.0,0.8,1.0,1.0,1.0,1.0,0.9667,0.0816,0.8,1.0,0.2,ArthroNat,1.0
+Pauropoda,3,0.8,0.2222,0.8571,1.0,0.6667,0.5,0.6743,0.2793,0.2222,1.0,0.7778,ArthroNat mosaic3x3,1.0
+Ichthyostraca,2,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,0.0,ArthroNat,1.0
