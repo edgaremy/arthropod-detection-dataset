@@ -1,5 +1,5 @@
-/dataset/images
-/dataset/labels
+/dataset
+/datasets(generalization)
 /output
 .vscode
 /runs

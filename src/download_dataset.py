@@ -4,6 +4,33 @@ from tqdm.auto import tqdm
 import asyncio
 import zipfile
 
+def create_dataset_yaml(dataset_path, dataset_name="ArthroNat"):
+    """
+    Create a dataset YAML file for YOLO training.
+    
+    Args:
+        dataset_path (str): Absolute path to the dataset root folder
+        dataset_name (str): Name of the dataset (used for the YAML filename)
+    """
+    yaml_content = f"""path: {dataset_path}
+train: images/train
+val: images/val
+test: images/test
+
+# number of classes
+nc: 1
+
+# Classes
+names:
+  0: "Arthropod"
+"""
+    
+    yaml_file = os.path.join(dataset_path, f"{dataset_name}.yaml")
+    with open(yaml_file, 'w') as f:
+        f.write(yaml_content)
+    
+    print(f"- Created dataset YAML: {yaml_file}")
+
 """
 This function downloads images from the iNaturalist dataset based on a CSV file containing image metadata.
 The CSV file should contain columns for taxon_id, photo_id, extension, observation_uuid and split.
@@ -70,6 +97,11 @@ labels_file = "src/dataset_labels.zip"
 with zipfile.ZipFile(labels_file, 'r') as zip_ref:
 	zip_ref.extractall(dest_file)
 
+# Create dataset YAML file:
+print("- Creating dataset YAML configuration")
+abs_dataset_path = os.path.abspath(dest_file)
+create_dataset_yaml(abs_dataset_path)
+
 # Download images from iNaturalist:
-print("- Downloading images from iNaturalist")
+print("- Downloading images from iNaturalist (sorry not async, so it will take some time)")
 get_images_from_inat(src_csv, dest_file, img_size)

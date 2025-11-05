@@ -5,7 +5,7 @@ import yaml
 
 # Configuration
 mosaic_type = '3x3'  # Change to '2x2' for default mosaicing
-data_yaml = "dataset/Arthropoda.yaml"
+data_yaml = "dataset/ArthroNat.yaml"
 project = f'arthro_mosaic_{mosaic_type.replace("x", "")}'
 
 class CustomTrainer(DetectionTrainer):

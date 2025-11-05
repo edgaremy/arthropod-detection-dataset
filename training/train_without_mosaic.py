@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 
 # Path to your YAML config file
-data_yaml = 'dataset/Arthropoda.yaml'
+data_yaml = 'dataset/ArthroNat.yaml'
 project = 'arthro_nomosaic'
 
 model = YOLO('yolo11l.pt') # Use a pre-trained model

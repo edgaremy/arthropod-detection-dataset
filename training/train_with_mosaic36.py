@@ -5,7 +5,7 @@ from Mosaic36 import Mosaic36
 
 # Configuration
 mosaic_type = '6x6'  # 6x6 mosaicing with 36 images
-data_yaml = "dataset/Arthropoda.yaml"
+data_yaml = "dataset/ArthroNat.yaml"
 project = 'arthro_mosaic_66'
 
 class CustomTrainer(DetectionTrainer):

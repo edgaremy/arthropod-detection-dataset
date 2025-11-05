@@ -9,7 +9,7 @@ from Mosaic16 import Mosaic16
 
 # Configuration
 mosaic_type = '4x4'  # 4x4 mosaicing with 16 images
-data_yaml = "dataset/Arthropoda.yaml"
+data_yaml = "dataset/ArthroNat.yaml"
 project = 'arthro_mosaic_44'
 
 class CustomTrainer(DetectionTrainer):
