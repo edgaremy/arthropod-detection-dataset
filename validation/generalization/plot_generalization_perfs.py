@@ -111,9 +111,9 @@ if __name__ == "__main__":
     
     # Define metrics with their CSV column names and display names
     metrics = {
-        'f1': {'csv_name': 'avg_F1', 'display_name': 'F1-Score'},
-        'precision': {'csv_name': 'avg_precision', 'display_name': 'Precision'},
-        'recall': {'csv_name': 'avg_recall', 'display_name': 'Recall'},
+        'f1': {'csv_name': 'avg_F1', 'display_name': 'Mean F1-Score'},
+        'precision': {'csv_name': 'avg_precision', 'display_name': ' Mean Precision'},
+        'recall': {'csv_name': 'avg_recall', 'display_name': 'Mean Recall'},
         'iou': {'csv_name': 'avg_mean_IoU', 'display_name': 'Mean IoU'}
     }
     
