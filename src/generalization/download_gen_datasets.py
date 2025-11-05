@@ -45,13 +45,13 @@ def get_images_from_inat(src_csv, dest_file, img_size="original"):
 
     # Load CSV of selected pictures : #taxon_id	#photo_id #extension #observation_uuid
     with open(src_csv, newline='') as csvfile:
-        lines = csvfile.read().split("\n")
+        lines = csvfile.read().splitlines()  # Use splitlines() to handle both \n and \r\n
         # Count valid lines for progress bar
         valid_lines = [l for l in lines[1:] if len(l.split(',')) > 4]
         pbar = tqdm(total=len(valid_lines), desc=f"Downloading {os.path.basename(dest_file)}")
         
         for i, row in enumerate(lines):
-            data = row.split(',')
+            data = [field.strip() for field in row.split(',')]  # Strip whitespace from each field
             if i > 0 and len(data) > 4:
                 taxon_id = data[0]
                 photo_id = data[1]
