@@ -119,6 +119,6 @@ if __name__ == "__main__":
     
     # Generate plots for each metric
     for metric_key, metric_info in metrics.items():
-        output_path = f'validation/generalization/model_comparison_{metric_key}.png'
+        output_path = f'validation/generalization/generalization_{metric_key}.png'
         plot_model_comparison(csv_path, metric_info, output_path, model_selection=model_selection)
         print(f"Generated plot: {output_path}")
