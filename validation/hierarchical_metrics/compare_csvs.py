@@ -210,22 +210,12 @@ def compare_multiple_levels(scenarios, csv_folder_base, levels=None, metrics=Non
 # Example usage
 scenarios = {
     'arthro': 'ArthroNat',
-    'flatbug': 'flatbug',
-    'arthro_and_flatbug': 'ArthroNat+flatbug',
     'arthro_mosaic_33': 'ArthroNat mosaic3x3',
     'arthro_mosaic_44': 'ArthroNat mosaic4x4',
     'arthro_nomosaic': 'ArthroNat no mosaic',
+    'arthro_and_flatbug': 'ArthroNat+flatbug',
+    'flatbug': 'flatbug',
 }
-
-# Alternative: simple list format (folder names = display names)
-# scenarios = [
-#     'arthro',
-#     'flatbug',
-#     'arthro_and_flatbug',
-#     'arthro_mosaic_33',
-#     'arthro_mosaic_44',
-#     'arthro_nomosaic',
-# ]
 
 # Base directory containing scenario subfolders
 csv_folder_base = 'validation/hierarchical_metrics/csv_tables'

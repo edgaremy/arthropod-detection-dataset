@@ -47,8 +47,8 @@ def plot_model_comparison(csv_path, metric, output, model_selection=None, figsiz
     
     # Custom color palette
     colors = load_cmap("Egypt").colors
-    # Reorder colors from r b g y to b y g r (indices 1, 3, 2, 0)
-    colors = [colors[i] for i in [1, 3, 2, 0]]
+    # Reorder colors from r b g y to b g y r (indices 1, 2, 3, 0)
+    colors = [colors[i] for i in [1, 2, 3, 0]]
     
     # Plot the bar chart
     bars = pivot_df.T.plot(kind='bar', ax=ax, width=bar_width, color=colors[:len(pivot_df.columns)])

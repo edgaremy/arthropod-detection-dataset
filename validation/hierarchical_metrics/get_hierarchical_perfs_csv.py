@@ -126,11 +126,11 @@ def export_all_metrics(results, output_dir, model_name='model'):
 # Example usage
 scenarios = [
     'arthro',
-    'flatbug',
-    'arthro_and_flatbug',
     'arthro_mosaic_33',
     'arthro_mosaic_44',
     'arthro_nomosaic',
+    'arthro_and_flatbug',
+    'flatbug',
 ]
 
 for model_name in scenarios:
