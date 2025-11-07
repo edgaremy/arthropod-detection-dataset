@@ -1,0 +1,145 @@
+HIERARCHICAL PERFORMANCE MULTIPLE CORRELATION ANALYSIS
+================================================================================
+Analysis Date: 2025-11-07 14:44:01.744164
+Input File: comparison_order_F1.csv
+Taxonomic Level: ORDER
+Metric Analyzed: F1
+Scenarios Analyzed: 6
+
+DATASET SUMMARY:
+  Categories analyzed: 67
+  Complete cases used: 67
+  Total images: 2028
+  Image count statistics:
+    Mean: 30.27
+    Median: 6
+    Range: 1 - 315
+
+MULTIPLE CORRELATION ANALYSIS:
+Multiple correlation between number of images and all F1 scenarios
+--------------------------------------------------------------------------------
+
+PEARSON MULTIPLE CORRELATION (Linear Relationships):
+  Multiple R:  0.194 ( WEAK correlation)
+  R-squared:  0.037 ( 3.7% of variance explained)
+  Adjusted R-squared: -0.059 ( -5.9% adjusted for complexity)
+  F-statistic:   0.39
+  p-value: 0.8831 
+
+SPEARMAN MULTIPLE CORRELATION (Monotonic Relationships):
+  Multiple R:  0.492 ( MODERATE correlation)
+  R-squared:  0.242 ( 24.2% of variance explained)
+  Adjusted R-squared:  0.167 ( 16.7% adjusted for complexity)
+  F-statistic:   3.20
+  p-value: 0.0086 *
+
+METHOD COMPARISON:
+  Difference in R:  0.299
+  Agreement level: LOW
+
+INDIVIDUAL SCENARIO CONTRIBUTIONS (Pearson):
+(How each scenario contributes to predicting image count - linear)
+
+   ArthroNat_F1 : β = -51.5293 (p = 0.6753 ) 
+   flatbug_F1 : β = 28.3085 (p = 0.5014 ) 
+   ArthroNat.flatbug_F1 : β =  3.0702 (p = 0.9827 ) 
+   ArthroNat.mosaic3x3_F1 : β = -7.2135 (p = 0.9516 ) 
+   ArthroNat.mosaic4x4_F1 : β = 20.8175 (p = 0.7737 ) 
+   ArthroNat.no.mosaic_F1 : β = 41.8562 (p = 0.4484 ) 
+
+INDIVIDUAL SCENARIO CONTRIBUTIONS (Spearman):
+(How each scenario contributes to predicting image count - monotonic)
+
+   ArthroNat_F1 : β = -0.4505 (p = 0.0640 ) 
+   flatbug_F1 : β =  0.0579 (p = 0.7150 ) 
+   ArthroNat.flatbug_F1 : β =  0.2017 (p = 0.5157 ) 
+   ArthroNat.mosaic3x3_F1 : β = -0.1968 (p = 0.4645 ) 
+   ArthroNat.mosaic4x4_F1 : β = -0.3666 (p = 0.0915 ) 
+   ArthroNat.no.mosaic_F1 : β =  0.4507 (p = 0.0262 ) *
+
+INTERPRETATION:
+  Pearson analysis: WEAK linear correlation (R = 0.194 , 3.7% variance explained)
+  Spearman analysis: MODERATE monotonic correlation (R = 0.492 , 24.2% variance explained)
+  Stronger relationship detected by: Spearman (monotonic)
+  → Only MONOTONIC relationship is statistically significant
+
+STATISTICAL NOTES:
+  * indicates statistical significance (p < 0.05)
+  Pearson: measures linear relationships (traditional multiple correlation)
+  Spearman: measures monotonic relationships (robust to outliers and non-linearity)
+  Multiple R measures how well all scenarios together correlate with image count
+  R-squared shows the percentage of variance explained by the scenarios
+  Adjusted R-squared adjusts for the number of variables (prevents overfitting)
+  β coefficients show individual scenario contributions
+  Correlation strength: R < 0.3 (weak), 0.3-0.7 (moderate), > 0.7 (strong)
+  Agreement level: HIGH (diff < 0.1), MODERATE (0.1-0.2), LOW (> 0.2)
+
+DETAILED DATA (Complete Cases Only):
+Category, Count, ArthroNat_F1,flatbug_F1,ArthroNat.flatbug_F1,ArthroNat.mosaic3x3_F1,ArthroNat.mosaic4x4_F1,ArthroNat.no.mosaic_F1
+Coleoptera,315,0.9237,0.8195,0.9196,0.9183,0.9071,0.9117
+Diptera,251,0.8632,0.7822,0.8767,0.8797,0.8616,0.8537
+Lepidoptera,220,0.9371,0.7863,0.9362,0.9362,0.9106,0.9224
+Hemiptera,212,0.7640,0.6157,0.7636,0.7386,0.7273,0.7057
+Hymenoptera,190,0.8273,0.7314,0.8451,0.8194,0.8051,0.8227
+Araneae,144,0.9122,0.8562,0.9342,0.9267,0.9180,0.9267
+Psocodea,64,0.7795,0.6154,0.8638,0.8598,0.8493,0.6900
+Trichoptera,59,0.8769,0.7752,0.8923,0.9091,0.8921,0.8397
+Isopoda,50,0.5926,0.3309,0.6265,0.6386,0.6821,0.5714
+Orthoptera,38,0.8684,0.7368,0.8831,0.8831,0.9250,0.8947
+Ephemeroptera,32,0.8235,0.6769,0.8056,0.8571,0.7778,0.7826
+Opiliones,30,0.8485,0.7187,0.8485,0.8125,0.7761,0.8308
+Odonata,29,0.9825,0.8571,0.9474,0.9825,0.9310,0.9123
+Neuroptera,26,0.9630,0.7931,0.9643,0.9643,0.9455,0.9434
+Trombidiformes,24,0.6552,0.4074,0.7119,0.7619,0.7500,0.6780
+Plecoptera,23,0.8070,0.6875,0.8070,0.7931,0.7667,0.7857
+Pseudoscorpiones,21,0.8519,0.6792,0.8070,0.8070,0.8148,0.7692
+Mantodea,18,0.7429,0.5161,0.7500,0.6857,0.8571,0.7333
+Anomopoda,17,0.8333,0.7895,0.8649,0.8333,0.8333,0.8421
+Symphypleona,14,0.6667,0.4800,0.6275,0.6545,0.6296,0.6000
+Entomobryomorpha,12,0.8333,0.7059,0.9189,0.8649,0.9189,0.8649
+Thysanoptera,12,0.8235,0.8205,0.9744,0.8571,0.9268,0.8571
+Blattodea,11,0.4211,0.2979,0.4771,0.4037,0.4667,0.3714
+Julida,10,0.7027,0.1667,0.7568,0.7879,0.6857,0.4286
+Anostraca,10,0.2727,0.3333,0.3846,0.4615,0.2069,0.3333
+Geophilomorpha,9,0.7778,0.2667,0.8889,0.8889,0.9412,0.8000
+Scorpiones,9,0.9412,0.5333,0.9412,0.8750,0.8421,0.8235
+Mecoptera,9,0.8889,0.8889,0.8889,0.8421,0.8421,0.9474
+Dermaptera,9,0.8333,0.6364,0.7826,0.7273,0.7826,0.7273
+Poduromorpha,9,0.3636,0.1064,0.4107,0.3208,0.4030,0.1837
+Mesostigmata,7,0.7000,0.4444,0.7000,0.7619,0.5556,0.6316
+Decapoda,7,0.7692,0.1875,0.7692,0.7692,0.6667,0.7143
+Polydesmida,7,0.9333,0.3636,0.9231,0.9333,0.9231,0.9231
+Amphipoda,6,0.9333,0.7692,0.9333,0.9333,0.8571,0.8571
+Archaeognatha,6,1.0000,0.8000,0.9231,1.0000,0.7273,0.9091
+Zygentoma,6,0.5882,0.1111,0.8197,0.6000,0.6545,0.2927
+Scolopendromorpha,6,0.9091,0.4444,0.9091,0.8000,0.5000,0.6667
+Sarcoptiformes,6,0.4545,0.3810,0.6429,0.7742,0.5600,0.5000
+Raphidioptera,6,1.0000,0.7273,1.0000,1.0000,1.0000,1.0000
+Onychopoda,6,0.2000,0.2581,0.2000,0.2581,0.2581,0.2581
+Polyzoniida,6,0.8421,0.4286,0.7778,0.6250,0.7059,0.7368
+Cyclopoida,6,0.8333,0.6000,0.8333,0.8333,0.8333,0.6667
+Phasmida,5,0.6000,0.5455,0.6000,0.6000,0.5000,0.6000
+Ixodida,5,0.8889,0.8889,0.8000,1.0000,0.8000,0.8000
+Glomerida,5,0.9412,0.8750,0.9412,0.9412,0.9412,0.9412
+Siphonaptera,5,0.8889,1.0000,1.0000,0.8889,1.0000,0.6000
+Embioptera,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Strepsiptera,5,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Polyxenida,4,0.8889,0.3333,0.8889,0.8889,1.0000,0.6667
+Ctenopoda,4,0.4762,0.2727,0.4545,0.6667,0.5455,0.4000
+Chordeumatida,4,1.0000,0.3333,0.7500,0.7500,0.8571,0.7500
+Lithobiomorpha,3,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Tetramerocerata,3,0.8000,0.2222,0.8571,1.0000,0.6667,0.5000
+Notostraca,3,0.8000,0.5000,0.8000,0.6667,1.0000,0.8000
+Podocopida,3,1.0000,0.8000,1.0000,1.0000,1.0000,1.0000
+Spinicaudata,3,0.7500,0.5714,0.7500,0.6000,0.7500,0.5714
+Scutigeromorpha,3,0.5000,0.8000,0.8000,0.8000,0.0000,0.8000
+Megaloptera,3,1.0000,0.8571,1.0000,1.0000,1.0000,0.6667
+Harpacticoida,2,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Arguloida,2,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Callipodida,2,1.0000,0.6667,1.0000,1.0000,1.0000,1.0000
+Neelipleona,2,1.0000,0.6667,1.0000,1.0000,1.0000,1.0000
+Diplura,1,1.0000,0.0000,1.0000,1.0000,1.0000,0.0000
+Laevicaudata,1,1.0000,1.0000,0.6667,0.6667,1.0000,1.0000
+Haplopoda,1,1.0000,1.0000,1.0000,1.0000,1.0000,1.0000
+Calanoida,1,1.0000,0.3333,1.0000,1.0000,1.0000,1.0000
+Siphonostomatoida,1,0.6667,1.0000,1.0000,1.0000,1.0000,0.0000

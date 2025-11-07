@@ -1,0 +1,89 @@
+HIERARCHICAL PERFORMANCE MULTIPLE CORRELATION ANALYSIS
+================================================================================
+Analysis Date: 2025-11-07 14:44:01.722906
+Input File: comparison_class_mean_IoU.csv
+Taxonomic Level: CLASS
+Metric Analyzed: MEAN_IOU
+Scenarios Analyzed: 6
+
+DATASET SUMMARY:
+  Categories analyzed: 11
+  Complete cases used: 11
+  Total images: 2028
+  Image count statistics:
+    Mean: 184.36
+    Median: 38
+    Range: 2 - 1559
+
+MULTIPLE CORRELATION ANALYSIS:
+Multiple correlation between number of images and all MEAN_IOU scenarios
+--------------------------------------------------------------------------------
+
+PEARSON MULTIPLE CORRELATION (Linear Relationships):
+  Multiple R:  0.338 ( MODERATE correlation)
+  R-squared:  0.114 ( 11.4% of variance explained)
+  Adjusted R-squared: -1.215 ( -121.5% adjusted for complexity)
+  F-statistic:   0.09
+  p-value: 0.9946 
+
+SPEARMAN MULTIPLE CORRELATION (Monotonic Relationships):
+  Multiple R:  0.842 ( STRONG correlation)
+  R-squared:  0.710 ( 71.0% of variance explained)
+  Adjusted R-squared:  0.274 ( 27.4% adjusted for complexity)
+  F-statistic:   1.63
+  p-value: 0.3315 
+
+METHOD COMPARISON:
+  Difference in R:  0.505
+  Agreement level: LOW
+
+INDIVIDUAL SCENARIO CONTRIBUTIONS (Pearson):
+(How each scenario contributes to predicting image count - linear)
+
+   ArthroNat_mean_IoU : β = 910.7847 (p = 0.9753 ) 
+   flatbug_mean_IoU : β = 776.6811 (p = 0.8916 ) 
+   ArthroNat.flatbug_mean_IoU : β = -3765.0516 (p = 0.8752 ) 
+   ArthroNat.mosaic3x3_mean_IoU : β = -302.1306 (p = 0.9850 ) 
+   ArthroNat.mosaic4x4_mean_IoU : β = 2148.3927 (p = 0.8258 ) 
+   ArthroNat.no.mosaic_mean_IoU : β = 694.5232 (p = 0.9372 ) 
+
+INDIVIDUAL SCENARIO CONTRIBUTIONS (Spearman):
+(How each scenario contributes to predicting image count - monotonic)
+
+   ArthroNat_mean_IoU : β = -2.3094 (p = 0.4162 ) 
+   flatbug_mean_IoU : β = -1.3054 (p = 0.1756 ) 
+   ArthroNat.flatbug_mean_IoU : β =  1.3273 (p = 0.4217 ) 
+   ArthroNat.mosaic3x3_mean_IoU : β = -1.5627 (p = 0.0542 ) 
+   ArthroNat.mosaic4x4_mean_IoU : β =  0.7909 (p = 0.3117 ) 
+   ArthroNat.no.mosaic_mean_IoU : β =  2.5254 (p = 0.2410 ) 
+
+INTERPRETATION:
+  Pearson analysis: MODERATE linear correlation (R = 0.338 , 11.4% variance explained)
+  Spearman analysis: STRONG monotonic correlation (R = 0.842 , 71.0% variance explained)
+  Stronger relationship detected by: Spearman (monotonic)
+  → Neither relationship is statistically significant
+
+STATISTICAL NOTES:
+  * indicates statistical significance (p < 0.05)
+  Pearson: measures linear relationships (traditional multiple correlation)
+  Spearman: measures monotonic relationships (robust to outliers and non-linearity)
+  Multiple R measures how well all scenarios together correlate with image count
+  R-squared shows the percentage of variance explained by the scenarios
+  Adjusted R-squared adjusts for the number of variables (prevents overfitting)
+  β coefficients show individual scenario contributions
+  Correlation strength: R < 0.3 (weak), 0.3-0.7 (moderate), > 0.7 (strong)
+  Agreement level: HIGH (diff < 0.1), MODERATE (0.1-0.2), LOW (> 0.2)
+
+DETAILED DATA (Complete Cases Only):
+Category, Count, ArthroNat_mean_IoU,flatbug_mean_IoU,ArthroNat.flatbug_mean_IoU,ArthroNat.mosaic3x3_mean_IoU,ArthroNat.mosaic4x4_mean_IoU,ArthroNat.no.mosaic_mean_IoU
+Insecta,1559,0.8926,0.8136,0.8885,0.8847,0.8567,0.8790
+Arachnida,246,0.8897,0.7858,0.8835,0.8747,0.8529,0.8728
+Malacostraca,63,0.8229,0.5816,0.8176,0.8094,0.8182,0.7920
+Branchiopoda,45,0.8146,0.7310,0.7866,0.7602,0.6566,0.8137
+Diplopoda,38,0.8544,0.6583,0.8800,0.8676,0.8480,0.7999
+Entognatha,38,0.7918,0.6743,0.8040,0.7849,0.7416,0.7602
+Chilopoda,21,0.8437,0.6309,0.8616,0.9024,0.7233,0.8641
+Hexanauplia,10,0.8029,0.7109,0.8405,0.8255,0.7769,0.6853
+Ostracoda,3,0.9334,0.8343,0.9106,0.9336,0.8999,0.9142
+Pauropoda,3,0.7861,0.3628,0.7845,0.8867,0.8353,0.5335
+Ichthyostraca,2,0.9336,0.9491,0.9437,0.9433,0.8923,0.9551
