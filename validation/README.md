@@ -1,56 +1,98 @@
-# Validation of the YOLO model
+# Validation Scripts
 
-Once you have [set up Python](../README.md#set-up-python) and [downloaded the initial dataset](../README.md#download-the-dataset), you can run various validation task in order to reproduce our results.
+Scripts for evaluating model performance and generating analysis plots.
 
-This is done in to separate steps, in order to make plotting scripts faster to run and experiment with:
-- First measure every metric needed by using the model on a given validation set, and store everythin in a csv file (done in the [metrics](metrics) folder). This part takes the longest to run.
-- Second, use the outputed csv file to display metrics in interpretable plots.
+## Prerequisites
 
-## 1. Generate metric csv
+1. [Set up Python environment](../README.md#set-up-python)
+2. [Download the dataset](../README.md#download-the-dataset)
 
-Note: This part can be skipped if you just want to play around with the plots using the already generated csv files.
+## Overview
 
-*Still a Work in Progress*
+Validation is done in two steps for efficiency:
+1. **Generate metrics** - Run model inference and compute metrics, save to CSV files (time-intensive)
+2. **Plot metrics** - Visualize pre-computed metrics from CSV files (fast, for experimentation)
 
+## Main Scripts
 
-## 2. Plot metrics using csv
+**`get_validation_metrics.py`** - Runs inference on validation sets and computes performance metrics (mAP, precision, recall, F1).
 
-### Hierarchical Performance
+## 1. Generate Metrics (Optional)
 
-To get the plots in the [`hierarchical_perfs/plots`](plot_from_metrics/hierarchical_perfs/plots) folder, such as:
+Pre-computed CSV files are included in `metrics/`. Skip this step unless regenerating metrics.
 
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/hierarchical_perfs/plots/class_perfs_yolo11l.png?raw=true" width="400" align="center">
-
-You can run :
-
-
+Run inference and compute metrics:
 ```bash
-python validation/plot_from_metrics/hierarchical_perfs/plot_hierarchical_perfs.py
+python validation/get_validation_metrics.py
 ```
 
 
-### Performance according to image properties
+## 2. Plot Metrics Using CSV
 
-To get the plots in the [`perfs_vs_img_properties/plots`](plot_from_metrics/perfs_vs_img_properties/plots) folder, such as:
+### Model Performance Comparison
 
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_size_IoU_11l.png?raw=true" width="350" align="center">
+Compare different models on test datasets using plots in the [`metrics/plots`](metrics/plots) folder:
 
-and
+<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/metrics/plots/arthro_f1_comparison.png?raw=true" width="300"> <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/metrics/plots/flatbug_f1_comparison.png?raw=true" width="300">
 
- <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/perfs_vs_img_properties/plots/bbox_number_F1_11l.png?raw=true" width="350" align="center">
-
-You can run respectively :
+Run the R plotting script:
 ```bash
-python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_size_perf.py
-```
-and 
-```bash
-python validation/plot_from_metrics/perfs_vs_img_properties/plot_bbox_number_perf.py
+Rscript validation/metrics/compare_average_perfs.r
 ```
 
-## Download additional validation datasets
+### Performance vs Bounding Box Properties
 
-TODO
+Compare model performance according to bbox size and bbox count:
+
+<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/metrics/plots/compare_bbox_size_F1.png?raw=true" width="300"> <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/metrics/plots/compare_bbox_nb_F1.png?raw=true" width="300">
+
+Run the R plotting scripts:
+```bash
+Rscript validation/metrics/compare_bbox_size_perfs.r
+Rscript validation/metrics/compare_bbox_nb_perfs.r
+```
+
+### Hierarchical Performance Analysis
+
+Analyze performance across taxonomic hierarchies (class, order, family) in the [`hierarchical_metrics`](hierarchical_metrics) folder:
+
+<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/hierarchical_perfs/plots/class_perfs_yolo11l.png?raw=true" width="300"> <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/hierarchical_perfs/plots/order_perfs_yolo11l.png?raw=true" width="300">
+
+**R Script (recommended)** - Correlation analysis between training data quantity and performance:
+```bash
+Rscript validation/hierarchical_metrics/get_correlation_nb_perfs.r
+```
+
+
+
+
+
+### Generalization Performance
+
+Evaluate model generalization on external datasets in the [`plot_from_metrics/generalization/plots`](plot_from_metrics/generalization/plots) folder:
+
+<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/plot_from_metrics/generalization/plots/generalization_11l.png?raw=true" width="300">
+
+Run the plotting script:
+```bash
+python validation/plot_from_metrics/generalization/plot_generalization_metrics
+```
+
+## Subdirectories
+
+**`metrics/`** - Pre-computed performance metrics CSV files and R plotting scripts for model comparison.
+
+**`plot_from_metrics/`** - Python plotting scripts for hierarchical performance, image properties, and generalization.
+
+**`hierarchical_metrics/`** - R and Python scripts for analyzing performance across taxonomic hierarchies (class, order, family). Includes correlation analysis between training data quantity and performance.
+
+**`generalization/`** - Validation on external datasets to test generalization capabilities.
+
+**`cross-validation/`** - K-fold cross-validation scripts and results.
+
+## Download Additional Validation Datasets
+
+External validation datasets for generalization testing can be downloaded separately (see `generalization/` subdirectory).
 
 #
 # 🐞 🐜 🦋 🦗 🐝 🕷️ 🐛 🪰 🪲
