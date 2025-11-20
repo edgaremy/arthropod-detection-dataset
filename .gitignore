@@ -1,5 +1,7 @@
 /dataset
 /datasets(generalization)
+/exported_models
+/results
 /output
 .vscode
 /runs

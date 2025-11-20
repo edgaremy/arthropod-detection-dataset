@@ -9,11 +9,10 @@ Author: Assistant
 Date: November 2025
 """
 
-import os
 import sys
 import argparse
 from pathlib import Path
-from typing import Union, List, Dict, Tuple
+from typing import Union, List, Dict
 import logging
 from datetime import datetime
 
@@ -112,7 +111,7 @@ def get_image_files(input_path: Union[str, Path]) -> List[Path]:
         List[Path]: List of image file paths
     """
     input_path = Path(input_path)
-    image_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif', '.webp'}
+    image_extensions = {'.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif', '.webp', '.jp2', '.j2k', '.jpf', '.jpx', '.jpm'}
     
     if input_path.is_file():
         if input_path.suffix.lower() in image_extensions:

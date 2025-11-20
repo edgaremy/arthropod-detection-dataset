@@ -37,6 +37,9 @@ conda create --name arthropod python=3.12.11
 ```
 - You can now activate the venv, and install the requirements with pip (*if you already have another non-conda environment, you can do this directly*):
 ```bash
+conda activate arthropod
+```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -63,34 +66,56 @@ The `src/download_dataset.py` script downloads images from iNaturalist and creat
 
 ## Use the detection model
 
-If you just want to try the detection model directly, you don't need to download the dataset. ***TODO***
+If you just want to try the detection model directly, you don't need to download the dataset. The models are automatically downloaded from Hugging Face Hub.
 
-### Usage example
+### Quick start - Command line
 
-Try it using the `src/inference.py` example:
 ```bash
-python src/inference.py <path_to_your_image> --size l --verbose
-```
-For more details, you can type `python src/inference.py --help`
+# Process a single image (uses YOLO11n PyTorch model by default)
+python inference/run_model_with_cmd.py path/to/image.jpg
 
-### Load the model in your Python code
+# Use YOLO11l model with ONNX format and save all outputs
+python inference/run_model_with_cmd.py images/ \
+    --format onnx --model-size l \
+    --save-crops --save-labels --save-bbox-view
+
+# Use GPU and custom confidence threshold
+python inference/run_model_with_cmd.py images/ --device cuda --conf 0.5
+```
+
+For complete documentation, see **[inference/README.md](inference/README.md)**
+
+### Use as Python module
 
 ```python
-from ultralytics import YOLO
-from huggingface_hub import hf_hub_download
+from inference.run_model_with_cmd import load_model_from_huggingface, run_inference
 
-# Download weights from Hugging Face Hub
-weights = hf_hub_download(
+# Load model (automatically downloads from Hugging Face Hub)
+model = load_model_from_huggingface(
     repo_id="edgaremy/arthropod-detector",
-    filename="yolo11l_arthropod_0.413.pt"
-    )
+    filename="yolo11l_ArthroNat+flatbug.onnx"  # or .pt for PyTorch
+)
 
-# Load the model with Ultralytics YOLO
-model = YOLO(weights)
+# Run inference with all output options
+summary = run_inference(
+    model=model,
+    input_path="images/",
+    results_folder="results",
+    save_crops=True,
+    save_labels=True,
+    save_bbox_view=True,
+    conf_threshold=0.5,
+    device="cuda"
+)
 ```
 
+**Available models:**
+- `yolo11n_ArthroNat+flatbug.pt` / `.onnx` - Nano (fastest)
+- `yolo11l_ArthroNat+flatbug.pt` / `.onnx` - Large (most accurate)
+
 For more details, check out:
-- The source code of [`src/inference.py`](src/inference.py)
+- **[inference/README.md](inference/README.md)** - Comprehensive usage guide
+- **[inference/example_module_usage.py](inference/example_module_usage.py)** - Python module examples
 - The dedicated **Hugging Face [Model Repo](https://huggingface.co/edgaremy/arthropod-detector)** 🤗
 - [Ultralytics Documentation](https://docs.ultralytics.com/)
 

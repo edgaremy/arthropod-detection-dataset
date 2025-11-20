@@ -15,7 +15,7 @@
 If you don't already have a environment set up for the rest of this repo, you can simply add these packages to your python environment.
 
 ```bash
-pip install ultralytics huggingface-hub
+pip install ultralytics huggingface-hub onnxruntime-gpu
 ```
 
 
