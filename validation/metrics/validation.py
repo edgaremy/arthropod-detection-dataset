@@ -166,19 +166,21 @@ def compare_models(models, test_datasets, confidence=0.5, IoU_threshold=0.5, out
 # Example usage:
 if __name__ == "__main__":
     models = [
-        # ("arthro_mosaic2x2", "runs/arthro/train/weights/best.pt"),
-        # ("flatbug", "runs/flatbug/train/weights/best.pt"),
-        # ("arthro+flatbug", "runs/arthro_and_flatbug/train/weights/best.pt"),
-        # ("arthro_mosaic3x3", "runs/arthro_mosaic_33/train/weights/best.pt"),
-        # ("arthro_mosaic4x4", "runs/arthro_mosaic_44/train/weights/best.pt"),
-        # ("arthro_no_mosaic", "runs/arthro_nomosaic/train/weights/best.pt"),
+        ("arthro_mosaic2x2", "runs/arthro/train/weights/best.pt"),
+        ("arthro_mosaic3x3", "runs/arthro_mosaic_33/train/weights/best.pt"),
+        ("arthro_mosaic4x4", "runs/arthro_mosaic_44/train/weights/best.pt"),
+        ("arthro_no_mosaic", "runs/arthro_nomosaic/train/weights/best.pt"),
+        ("arthro+flatbug", "runs/arthro_and_flatbug/train/weights/best.pt"),
+        ("flatbug", "runs/flatbug/train/weights/best.pt"),
         # ("arthro+flatbug_mosaic4x4", "runs/arthro_and_flatbug_mosaic44/train/weights/best.pt"),
-        ("arthro_mosaic6x6", "runs/arthro_mosaic_66/train/weights/best.pt"),
+        # ("arthro_mosaic6x6", "runs/arthro_mosaic_66/train/weights/best.pt"),
     ]
     
     test_datasets = [
         ("arthro", "dataset"),
-        ("flatbug", "/media/disk2/flatbug-yolo-split"),
+        # ("flatbug", "/media/disk2/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
+        # ("OOD", "/media/disk2/PAI/data/OOD_dataset"), # REPLACE with your path for the OOD dataset
+        # ("OOD(no_iNat)", "/media/disk2/PAI/data/OOD_dataset(exclude_inat)"), # REPLACE with your path for the OOD dataset excluding iNat images
     ]
     
-    compare_models(models, test_datasets, confidence=0.5, IoU_threshold=0.5, output_csv='validation/flatbug/model_comparison.csv')
+    compare_models(models, test_datasets, confidence=0.5, IoU_threshold=0.5, output_csv='validation/metrics/model_comparison.csv')

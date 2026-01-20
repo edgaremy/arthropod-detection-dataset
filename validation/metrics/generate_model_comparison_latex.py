@@ -35,14 +35,16 @@ def _generate_subtable(df_filtered, model_display_names, model_keys, metric_disp
         if m not in df_filtered.columns:
             raise ValueError(f"Metric column '{m}' not found in CSV")
 
-    # Compute best per metric (for bolding). Use numeric comparison; ignore NaNs
+    # Compute best per metric (for bolding). Use rounded values; ignore NaNs
     best_values = {}
     for m in metric_keys:
         col = pd.to_numeric(df_filtered[m], errors='coerce')
         if col.isnull().all():
             best_values[m] = None
         else:
-            best_values[m] = col.max()
+            # Round values first, then find max
+            rounded_col = col.apply(lambda x: round(x, float_fmt) if not math.isnan(x) else float('nan'))
+            best_values[m] = rounded_col.max()
 
     # Build LaTeX lines for subtable
     latex = []
@@ -117,14 +119,16 @@ def _generate_single_table(df_filtered, model_display_names, model_keys, metric_
         if m not in df_filtered.columns:
             raise ValueError(f"Metric column '{m}' not found in CSV")
 
-    # Compute best per metric (for bolding). Use numeric comparison; ignore NaNs
+    # Compute best per metric (for bolding). Use rounded values; ignore NaNs
     best_values = {}
     for m in metric_keys:
         col = pd.to_numeric(df_filtered[m], errors='coerce')
         if col.isnull().all():
             best_values[m] = None
         else:
-            best_values[m] = col.max()
+            # Round values first, then find max
+            rounded_col = col.apply(lambda x: round(x, float_fmt) if not math.isnan(x) else float('nan'))
+            best_values[m] = rounded_col.max()
 
     # Build LaTeX lines
     latex = []
@@ -178,8 +182,9 @@ def _generate_single_table(df_filtered, model_display_names, model_keys, metric_
                     s = ''
                 else:
                     s = f"{num:.{float_fmt}f}"
-                    # Bold if equals best (within tolerance)
-                    if best_values[m] is not None and abs(num - best_values[m]) < 1e-6:
+                    # Bold if rounded value equals best
+                    rounded_num = round(num, float_fmt)
+                    if best_values[m] is not None and abs(rounded_num - best_values[m]) < 1e-9:
                         s = rf"\textbf{{{s}}}"
             except Exception:
                 s = str(val)
@@ -194,7 +199,7 @@ def _generate_single_table(df_filtered, model_display_names, model_keys, metric_
     return '\n'.join(latex)
 
 
-def generate_model_comparison_table(csv_path, model_names, metrics, test_datasets=None, output_path=None, caption=None, label=None, float_fmt=2, split_by_dataset=False, combined=False):
+def generate_model_comparison_table(csv_path, model_names, metrics, test_datasets=None, output_path=None, caption=None, label=None, float_fmt=2, split_by_dataset=False, combined=False, use_resizebox=False, table_font_size='footnotesize', rotate_headers=False):
     """
     Generate a LaTeX table comparing models (scenarios) from a metrics CSV.
 
@@ -213,6 +218,9 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
         float_fmt (int): Number of decimals for formatting metric values (default 2).
         split_by_dataset (bool): If True and multiple test datasets are provided, generate separate tables for each dataset.
         combined (bool): If True with split_by_dataset, create one table with grouped columns instead of completely separate tables.
+        use_resizebox (bool): If True, wrap the table in \resizebox{\textwidth}{!}{...} to fit page width (default False).
+        table_font_size (str): Font size command for the table: 'tiny', 'scriptsize', 'footnotesize', 'small', 'normalsize' (default 'footnotesize').
+        rotate_headers (bool): If True, rotate column headers 90 degrees to save horizontal space (default False).
 
     Returns:
         str: The LaTeX table code.
@@ -275,7 +283,7 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
             if not dataset_data:
                 raise ValueError('No valid data for any dataset')
             
-            # Compute best values per metric per dataset (for bolding)
+            # Compute best values per metric per dataset (for bolding). Use rounded values
             best_values_per_dataset = {}
             for dataset_key, df_data in dataset_data.items():
                 best_values = {}
@@ -285,7 +293,9 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
                         if col.isnull().all():
                             best_values[m] = None
                         else:
-                            best_values[m] = col.max()
+                            # Round values first, then find max
+                            rounded_col = col.apply(lambda x: round(x, float_fmt) if not math.isnan(x) else float('nan'))
+                            best_values[m] = rounded_col.max()
                 best_values_per_dataset[dataset_key] = best_values
             
             # Build the main table with grouped columns
@@ -296,14 +306,19 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
             # Caption and label
             if caption is None:
                 dataset_display_list = [test_dataset_display_names.get(ds, ds) for ds in test_dataset_keys]
-                caption = f"Comparison of the model's average performance on the {' and '.join(dataset_display_list)} test sets, depending on training scenario. The mean IoU is computed for each image and then averaged."
+                # Format dataset list nicely for 2+ datasets
+                if len(dataset_display_list) == 2:
+                    datasets_str = ' and '.join(dataset_display_list)
+                else:
+                    datasets_str = ', '.join(dataset_display_list[:-1]) + ', and ' + dataset_display_list[-1]
+                caption = f"Comparison of the model's average performance on the {datasets_str} test sets, depending on training scenario. The mean IoU is computed for each image and then averaged."
             if label is None:
                 base = os.path.basename(csv_path).replace('.csv', '')
                 label = f"tab:{base}_comparison"
             
             latex.append(f"\\caption{{{caption}}}")
             latex.append(f"\\label{{{label}}}")
-            latex.append(r"\footnotesize")
+            latex.append(rf"\{table_font_size}")
             
             # Column spec: left for model name, then centered columns for each dataset's metrics with vertical separators
             num_datasets = len(test_dataset_keys)
@@ -314,6 +329,11 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
                 if i > 0:
                     col_spec += '|'  # Add vertical separator before each new dataset group
                 col_spec += 'c' * num_metrics
+            
+            # Optionally wrap in resizebox
+            if use_resizebox:
+                latex.append(r"\resizebox{\textwidth}{!}{%")
+            
             latex.append(f"\\begin{{tabular}}{{{col_spec}}}")
             latex.append(r"\toprule")
             
@@ -328,7 +348,10 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
             header_row2 = [""]  # Empty cell under Scenario column (multirow continues)
             for dataset_key in test_dataset_keys:
                 for m in metric_keys:
-                    header_row2.append(rf"\thead{{\textbf{{{metric_display_names[m]}}}}}")
+                    if rotate_headers:
+                        header_row2.append(rf"\rotatebox{{90}}{{\textbf{{{metric_display_names[m]}}}}}")
+                    else:
+                        header_row2.append(rf"\thead{{\textbf{{{metric_display_names[m]}}}}}")
             latex.append(' & '.join(header_row2) + r" \\")
             latex.append(r"\midrule")
             
@@ -356,8 +379,9 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
                                     s = ''
                                 else:
                                     s = f"{num:.{float_fmt}f}"
-                                    # Bold if equals best within this dataset
-                                    if best_values.get(m) is not None and abs(num - best_values[m]) < 1e-6:
+                                    # Bold if rounded value equals best within this dataset
+                                    rounded_num = round(num, float_fmt)
+                                    if best_values.get(m) is not None and abs(rounded_num - best_values[m]) < 1e-9:
                                         s = rf"\textbf{{{s}}}"
                             except Exception:
                                 s = str(val) if not pd.isna(val) else ''
@@ -369,6 +393,11 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
             
             latex.append(r"\bottomrule")
             latex.append(r"\end{tabular}")
+            
+            # Close resizebox if used
+            if use_resizebox:
+                latex.append(r"}")
+            
             latex.append(r"\end{table}")
             
             final_latex = '\n'.join(latex)
@@ -415,14 +444,16 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
         if m not in df_filtered.columns:
             raise ValueError(f"Metric column '{m}' not found in CSV")
 
-    # Compute best per metric (for bolding). Use numeric comparison; ignore NaNs
+    # Compute best per metric (for bolding). Use rounded values; ignore NaNs
     best_values = {}
     for m in metric_keys:
         col = pd.to_numeric(df_filtered[m], errors='coerce')
         if col.isnull().all():
             best_values[m] = None
         else:
-            best_values[m] = col.max()
+            # Round values first, then find max
+            rounded_col = col.apply(lambda x: round(x, float_fmt) if not math.isnan(x) else float('nan'))
+            best_values[m] = rounded_col.max()
 
     # Build LaTeX lines
     latex = []
@@ -489,8 +520,9 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
                     s = ''
                 else:
                     s = f"{num:.{float_fmt}f}"
-                    # Bold if equals best (within tolerance)
-                    if best_values[m] is not None and abs(num - best_values[m]) < 1e-6:
+                    # Bold if rounded value equals best
+                    rounded_num = round(num, float_fmt)
+                    if best_values[m] is not None and abs(rounded_num - best_values[m]) < 1e-9:
                         s = rf"\textbf{{{s}}}"
             except Exception:
                 s = str(val)
@@ -535,11 +567,11 @@ if __name__ == '__main__':
     # Example 2: Using dictionaries with custom display names
     scenarios_dict = {
         'arthro_mosaic2x2': 'ArthroNat',
-        'flatbug': 'flatbug',
+        'arthro_mosaic3x3': 'ArthroNat mosaic3x3 ',
+        'arthro_mosaic4x4': 'ArthroNat mosaic4x4',
+        'arthro_no_mosaic': 'ArthroNat no mosaic',
         'arthro+flatbug': 'ArthroNat+flatbug',
-        'arthro_mosaic3x3': 'ArthroNat 3x3 Mosaic',
-        'arthro_mosaic4x4': 'ArthroNat 4x4 Mosaic',
-        'arthro_no_mosaic': 'ArthroNat no Mosaic',
+        'flatbug': 'flatbug',
     }
     
     metrics_dict = {
@@ -552,15 +584,31 @@ if __name__ == '__main__':
     # Test datasets with custom display names
     test_datasets_multiple = {
         'arthro': 'ArthroNat',
-        'flatbug': 'flatbug'
+        'flatbug': 'flatbug',
+        'OOD': 'OOD Dataset',
+        # 'OOD(no_iNat)': 'OOD (no iNaturalist)'
     }
 
-    print("\n\n=== Completely separate tables ===")
-    generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
-                                  test_datasets=test_datasets_multiple, 
-                                  split_by_dataset=True, combined=False)
+    # print("\n\n=== Completely separate tables ===")
+    # generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
+    #                               test_datasets=test_datasets_multiple, 
+    #                               split_by_dataset=True, combined=False)
     
-    print("\n\n=== Combined table with grouped columns ===")
+    # print("\n\n=== Combined table with grouped columns ===")
+    # generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
+    #                               test_datasets=test_datasets_multiple, 
+    #                               split_by_dataset=True, combined=True)
+    
+    print("\n\n=== Combined table - COMPACT (resizebox + scriptsize) ===")
     generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
                                   test_datasets=test_datasets_multiple, 
-                                  split_by_dataset=True, combined=True)
+                                  split_by_dataset=True, combined=True,
+                                  use_resizebox=True, table_font_size='scriptsize')
+    
+    # print("\n\n=== Combined table - VERY COMPACT (resizebox + tiny + rotated headers) ===")
+    # generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
+    #                               test_datasets=test_datasets_multiple, 
+    #                               split_by_dataset=True, combined=True,
+    #                               use_resizebox=True, table_font_size='tiny', 
+    #                               rotate_headers=True)
+
