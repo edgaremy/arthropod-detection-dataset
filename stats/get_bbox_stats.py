@@ -9,7 +9,8 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
     
     Args:
         dataset_path (str): Path to the YOLO dataset root directory
-        split (str): Dataset split to analyze ('train', 'val', or 'test')
+        split (str): Dataset split to analyze ('train', 'val', 'test', or 'all'
+                     to aggregate across all available splits)
         output_dir (str): Directory to save the plots
         plot_title (str): Title for the plots
     
@@ -17,23 +18,43 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
         dict: Dictionary containing computed statistics
     """
     
-    labels_path = os.path.join(dataset_path, 'labels', split)
+    labels_dir = os.path.join(dataset_path, 'labels')
     
-    if not os.path.exists(labels_path):
-        raise ValueError(f"Labels directory not found: {labels_path}")
+    if split == 'all':
+        # Collect label files from every subfolder of labels/
+        if not os.path.exists(labels_dir):
+            raise ValueError(f"Labels directory not found: {labels_dir}")
+        available_splits = sorted(
+            d for d in os.listdir(labels_dir)
+            if os.path.isdir(os.path.join(labels_dir, d))
+        )
+        if not available_splits:
+            raise ValueError(f"No split subdirectories found in: {labels_dir}")
+        label_files = [
+            os.path.join(labels_dir, s, f)
+            for s in available_splits
+            for f in os.listdir(os.path.join(labels_dir, s))
+            if f.endswith('.txt')
+        ]
+        split_label = f"All ({', '.join(available_splits)})"
+    else:
+        labels_path = os.path.join(labels_dir, split)
+        if not os.path.exists(labels_path):
+            raise ValueError(f"Labels directory not found: {labels_path}")
+        label_files = [
+            os.path.join(labels_path, f)
+            for f in os.listdir(labels_path)
+            if f.endswith('.txt')
+        ]
+        split_label = split.capitalize()
     
     # Lists to store statistics
     bbox_counts = []  # Number of bboxes per image
     bbox_sizes = []   # Relative sizes of all bboxes
     
     # Process each label file
-    for label_file in os.listdir(labels_path):
-        if not label_file.endswith('.txt'):
-            continue
-            
-        label_path = os.path.join(labels_path, label_file)
-        
-        with open(label_path, 'r') as f:
+    for label_file in label_files:
+        with open(label_file, 'r') as f:
             lines = f.readlines()
         
         # Count bboxes for this image
@@ -83,9 +104,9 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
     plt.rcParams['ytick.color'] = '0.15'
     plt.rcParams['axes.labelcolor'] = '0.15'
     
-    # Create figure with subplots
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
-    fig.suptitle(f'{plot_title} - {split.capitalize()} Split', fontsize=16, fontweight='bold')
+    # Create figure with subplots (1 row x 2 columns: density histograms only)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    fig.suptitle(f'{plot_title}', fontsize=16, fontweight='bold')
     
     # Plot 1: Histogram of bbox counts per image
     ax1.hist(bbox_counts, bins=range(int(np.max(bbox_counts)) + 2), alpha=0.7, color='skyblue', edgecolor='navy')
@@ -93,6 +114,7 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
     ax1.set_ylabel('Number of images')
     ax1.set_title('Distribution of Bounding Box Counts')
     ax1.grid(True, alpha=0.3)
+    ax1.set_yscale('log')
     
     # Add statistics text
     stats_text1 = f'Mean: {count_stats["mean"]:.2f}\nMedian: {count_stats["median"]:.2f}\nStd: {count_stats["std"]:.2f}\nMin: {count_stats["min"]}\nMax: {count_stats["max"]}'
@@ -106,6 +128,7 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
     ax2.set_ylabel('Number of bounding boxes')
     ax2.set_title('Distribution of Bounding Box Sizes')
     ax2.grid(True, alpha=0.3)
+    ax2.set_yscale('log')
     
     # Add statistics text
     stats_text2 = f'Mean: {size_stats["mean"]:.4f}\nMedian: {size_stats["median"]:.4f}\nStd: {size_stats["std"]:.4f}\nMin: {size_stats["min"]:.4f}\nMax: {size_stats["max"]:.4f}'
@@ -113,41 +136,24 @@ def analyze_bbox_statistics(dataset_path, split='train', output_dir='stats', plo
              verticalalignment='top', horizontalalignment='right',
              bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
     
-    # Plot 3: Box plot of bbox counts
-    ax3.boxplot(bbox_counts, vert=True, patch_artist=True,
-                boxprops=dict(facecolor='lightblue', alpha=0.7),
-                medianprops=dict(color='red', linewidth=2))
-    ax3.set_ylabel('Number of bounding boxes per image')
-    ax3.set_title('Box Plot: Bounding Box Counts per Image')
-    ax3.grid(True, alpha=0.3)
-    ax3.set_xticklabels(['Bbox Counts'])
-    
-    # Plot 4: Box plot of bbox sizes (log scale for better visualization)
-    ax4.boxplot(bbox_sizes, vert=True, patch_artist=True,
-                boxprops=dict(facecolor='lightcoral', alpha=0.7),
-                medianprops=dict(color='red', linewidth=2))
-    ax4.set_ylabel('Bounding box relative size (log scale)')
-    ax4.set_yscale('log')
-    ax4.set_title('Box Plot: Bounding Box Sizes (Log Scale)')
-    ax4.grid(True, alpha=0.3)
-    ax4.set_xticklabels(['Bbox Sizes'])
-    
     plt.tight_layout()
     
     # Save the plot with dataset name to avoid conflicts
     # Extract dataset name from plot_title for unique filenames
     dataset_name_clean = plot_title.replace('Dataset', '').replace('Generalization - ', '').replace(' - ', '_').replace(' ', '_').strip('_').lower()
+    # Use the split_label for the filename (strip parentheses/commas for 'all')
+    split_slug = split_label.lower().replace('(', '').replace(')', '').replace(', ', '_').replace(' ', '_')
     if dataset_name_clean:
-        output_filename = f'bbox_statistics_{dataset_name_clean}_{split}.png'
+        output_filename = f'bbox_statistics_{dataset_name_clean}_{split_slug}.png'
     else:
-        output_filename = f'bbox_statistics_{split}.png'
+        output_filename = f'bbox_statistics_{split_slug}.png'
     
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
     
     # Print summary statistics
-    print(f"\n=== {plot_title} - {split.capitalize()} Split Statistics ===")
+    print(f"\n=== {plot_title} - {split_label} Split Statistics ===")
     print(f"Total images analyzed: {len(bbox_counts)}")
     print(f"Total bounding boxes: {len(bbox_sizes)}")
     print("\nBounding Box Counts per Image:")
@@ -298,7 +304,7 @@ if __name__ == "__main__":
 
     # Analyze main arthropod dataset - test split only
     dataset_path = "dataset"
-    stats = analyze_bbox_statistics(dataset_path, split='test', output_dir='stats/ArthroNat', 
+    stats = analyze_bbox_statistics(dataset_path, split='all', output_dir='stats/ArthroNat', 
                                   plot_title='ArthroNat Dataset')
     
     # Compare all splits for main dataset
@@ -335,7 +341,7 @@ if __name__ == "__main__":
         print("Analyzing Flatbug dataset...")
         
         # Analyze individual split
-        analyze_bbox_statistics(flatbug_path, split='test', output_dir='stats/flatbug',
+        analyze_bbox_statistics(flatbug_path, split='all', output_dir='stats/flatbug',
                                 plot_title='Flatbug Dataset')
         
         # Compare all splits for flatbug dataset
@@ -343,3 +349,34 @@ if __name__ == "__main__":
                              output_dir='stats/flatbug', dataset_name='Flatbug')
     else:
         print(f"Warning: Flatbug dataset path not found: {flatbug_path}")
+
+    # Analyse OOD-split dataset
+    ood_path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD-split"
+    if os.path.exists(ood_path):
+        print("\n" + "="*50)
+        print("Analyzing OOD-split dataset...")
+        
+        analyze_bbox_statistics(ood_path, split='all', output_dir='stats/OOD',
+                                plot_title='OOD Dataset')
+        compare_dataset_splits(ood_path, splits=['train', 'val', 'test'], 
+                             output_dir='stats/OOD', dataset_name='OOD Dataset')
+    else:
+        print(f"Warning: OOD dataset path not found: {ood_path}")
+
+    # Analyze Lepinoc dataset
+    lepinoc_path= "/media/disk2/arthropod-detection-dataset/datasets(others)/Lepinoc"
+    if os.path.exists(lepinoc_path):
+        print("\n" + "="*50)
+        print("Analyzing Lepinoc dataset...")
+        
+        analyze_bbox_statistics(lepinoc_path, split='test', output_dir='stats/Lepinoc',
+                                plot_title='Lepinoc Dataset')
+        
+    # Analyse SPIPOLL dataset
+    spipoll_path = "/media/disk2/arthropod-detection-dataset/datasets(others)/SPIPOLL"
+    if os.path.exists(spipoll_path):
+        print("\n" + "="*50)
+        print("Analyzing SPIPOLL dataset...")
+        
+        analyze_bbox_statistics(spipoll_path, split='test', output_dir='stats/SPIPOLL',
+                                plot_title='SPIPOLL Dataset')
