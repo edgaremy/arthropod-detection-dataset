@@ -4,6 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.style.use('ggplot')
 import numpy as np
+from pathlib import Path
 
 plt.rcParams["font.sans-serif"] = ["Nimbus Sans"]
 plt.rcParams['font.size'] = 12
@@ -14,7 +15,7 @@ plt.rcParams['xtick.color'] = ratio
 plt.rcParams['ytick.color'] = ratio
 plt.rcParams['axes.labelcolor'] = ratio
 
-def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=None):
+def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=None, csv_output_path=None):
     # Read the CSV into a dataframe
     df = pd.read_csv(metrics_csv)
 
@@ -54,9 +55,38 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
     grouped_df.columns = grouped_df.columns.map(lambda x: f"{x[0]}_{x[1]}" if isinstance(x, tuple) else x)
     wave_numbers = grouped_df.index
 
+    # Export one-row-per-wave summary table with mean/best/std (no mAP columns)
+    per_wave_stats = df.groupby('wave').agg({
+        'F1-score': ['mean', 'max', 'std'],
+        'metrics/precision(B)': ['mean', 'max', 'std'],
+        'metrics/recall(B)': ['mean', 'max', 'std'],
+        'mean_IoU': ['mean', 'max', 'std'],
+    })
+
+    summary_df = pd.DataFrame({
+        'wave': per_wave_stats.index,
+        'F1(mean)': per_wave_stats[('F1-score', 'mean')].values,
+        'F1(best)': per_wave_stats[('F1-score', 'max')].values,
+        'F1(std)': per_wave_stats[('F1-score', 'std')].values,
+        'Precision(mean)': per_wave_stats[('metrics/precision(B)', 'mean')].values,
+        'Precision(best)': per_wave_stats[('metrics/precision(B)', 'max')].values,
+        'Precision(std)': per_wave_stats[('metrics/precision(B)', 'std')].values,
+        'Recall(mean)': per_wave_stats[('metrics/recall(B)', 'mean')].values,
+        'Recall(best)': per_wave_stats[('metrics/recall(B)', 'max')].values,
+        'Recall(std)': per_wave_stats[('metrics/recall(B)', 'std')].values,
+        'Mean IoU(mean)': per_wave_stats[('mean_IoU', 'mean')].values,
+        'Mean IoU(best)': per_wave_stats[('mean_IoU', 'max')].values,
+        'Mean IoU(std)': per_wave_stats[('mean_IoU', 'std')].values,
+    })
+
+    if csv_output_path is None:
+        csv_output_path = str(Path(metrics_csv).with_name('cross-validation_results.csv'))
+    summary_df.to_csv(csv_output_path, index=False)
+    print(f"Results CSV saved to: {csv_output_path}")
+
     # Create a 2x3 grid for subplots
     subplot_columns = 3 if show_map_fitness else 2
-    plot_width = 24 if show_map_fitness else 16
+    plot_width = 24 if show_map_fitness else 13
     fig, axs = plt.subplots(2, subplot_columns, figsize=(plot_width, 10))
 
     ymin, ymax = 0.5, 1.0
@@ -86,7 +116,7 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
         'F1-score': 'F1-score'
     }
 
-    for title, columns, position in metrics:
+    for plot_idx, (title, columns, position) in enumerate(metrics):
         ax = axs[position[0], position[1]]
 
         color = "#536fc3"
@@ -94,22 +124,24 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
 
 
         if isinstance(columns, list):  # Handle multiple curves (e.g., mAP)
-            for col in columns:
+            for col_idx, col in enumerate(columns):
                 # Get better label for the metric
                 metric_label = better_labels.get(col, col.split("/")[-1])
                 
                 # Plot the mean and median
-                ax.plot(wave_numbers, grouped_df[f'{col}_mean'], label=f'Mean {metric_label}', marker='o', markersize=9, linestyle='-', color=color)
+                mean_label = 'Mean value' if col_idx == 0 else None
+                ax.plot(wave_numbers, grouped_df[f'{col}_mean'], label=mean_label, marker='o', markersize=9, linestyle='-', color=color)
 
                 # Add bootstrap confidence intervals
                 ci_lower, ci_upper = zip(*[bootstrap_ci(df[df['wave'] == wave][col]) for wave in wave_numbers])
-                ax.fill_between(wave_numbers, ci_lower, ci_upper, alpha=0.3, label='95% CI', color=color_background)
+                ci_label = '95% CI' if col_idx == 0 else None
+                ax.fill_between(wave_numbers, ci_lower, ci_upper, alpha=0.3, label=ci_label, color=color_background)
         else:
             # Get better label for the metric
             metric_label = better_labels.get(columns, columns.split("/")[-1])
             
             # Plot the mean and median
-            ax.plot(wave_numbers, grouped_df[f'{columns}_mean'], label=f'Mean {metric_label}', marker='o', markersize=9, linestyle='-', color=color)
+            ax.plot(wave_numbers, grouped_df[f'{columns}_mean'], label='Mean value', marker='o', markersize=9, linestyle='-', color=color)
 
             # Add bootstrap confidence intervals
             ci_lower, ci_upper = zip(*[bootstrap_ci(df[df['wave'] == wave][columns]) for wave in wave_numbers])
@@ -119,31 +151,27 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
         ax.tick_params(axis='both', which='major', pad=8) # number further from the axis
 
         # Change x axis tick labels
-        n_img_wave = 14500 / 20
+        n_img_wave = 13661 / 20
         x_labels = [n_img_wave * i for i in range(1, len(wave_numbers) + 1)]
-        ticks_labels = [700, 5000, 10000, 14500]
-        max_label = 14500
+        ticks_labels = [700, 5000, 10000, 13661]
+        max_label = 13661
         ticks = [label / max_label * max(wave_numbers) for label in ticks_labels]
         ax.set_xticks(ticks)
         ax.set_xticklabels([f'{label/1000:.1f}' for label in ticks_labels])
 
         ax.set_facecolor('#f0f0f0') # grey background
         ax.set_xlabel('Image quantity (in thousands)')
-        # ax.set_ylabel(title)
-        ax.set_title(f'{title}')
+        ax.set_ylabel(title)
         ax.set_ylim(ymin, ymax)
         ax.set_xlim(xmin, xmax)
-        ax.legend()
+        ax.legend(loc='lower right')
 
-    plt.tight_layout()
-    
-    # Print statistics for the last wave (highest training data quantity)
-    last_wave = max(wave_numbers)
-    last_wave_data = df[df['wave'] == last_wave]
-    
-    print(f"\n{'='*60}")
-    print(f"FINAL RESULTS (Wave {last_wave} - Maximum Training Data)")
-    print(f"{'='*60}")
+        # Add paper-style subfigure labels and titles above each plot: (a) F1-score
+        subplot_label = f"({chr(ord('a') + plot_idx)}) {title}"
+        ax.text(0.5, 1.01, subplot_label, transform=ax.transAxes,
+            ha='center', va='bottom', fontsize=16, clip_on=False)
+
+    plt.tight_layout(rect=(0.0, 0.0, 1.0, 0.96))
     
     # Define all metrics to report
     all_metrics = [
@@ -155,17 +183,30 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
         ('mAP@50-95', 'metrics/mAP50-95(B)'),
         ('Fitness', 'fitness')
     ]
-    
-    for metric_name, metric_col in all_metrics:
-        if metric_col in last_wave_data.columns:
-            mean_val = last_wave_data[metric_col].mean()
-            best_val = last_wave_data[metric_col].max()
-            std_val = last_wave_data[metric_col].std()
-            print(f"{metric_name:12} | Mean: {mean_val:.4f} | Best: {best_val:.4f} | Std: {std_val:.4f}")
-    
-    print(f"{'='*60}")
-    print(f"Sample size: {len(last_wave_data)} models")
-    print(f"{'='*60}\n")
+
+    def print_wave_stats(wave, title):
+        wave_data = df[df['wave'] == wave]
+
+        print(f"\n{'='*60}")
+        print(f"{title} (Wave {wave})")
+        print(f"{'='*60}")
+
+        for metric_name, metric_col in all_metrics:
+            if metric_col in wave_data.columns:
+                mean_val = wave_data[metric_col].mean()
+                min_val = wave_data[metric_col].min()
+                best_val = wave_data[metric_col].max()
+                std_val = wave_data[metric_col].std()
+                print(f"{metric_name:12} | Mean: {mean_val:.4f} | Min: {min_val:.4f} | Best: {best_val:.4f} | Std: {std_val:.4f}")
+
+        print(f"{'='*60}")
+        print(f"Sample size: {len(wave_data)} models")
+        print(f"{'='*60}\n")
+
+    first_wave = min(wave_numbers)
+    last_wave = max(wave_numbers)
+    print_wave_stats(first_wave, "FIRST RESULTS")
+    print_wave_stats(last_wave, "FINAL RESULTS - Maximum Training Data")
     
     # Save or show the plot
     if output_path:
@@ -177,4 +218,5 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
 # Example usage
 plot_bootstrap_metrics('validation/cross-validation/cross-validation_metrics.csv',
                        show_map_fitness=False,
-                       output_path='validation/cross-validation/cross_validation_results.png')
+                       output_path='validation/cross-validation/cross_validation_results.png',
+                       csv_output_path='validation/cross-validation/cross-validation_results.csv')
