@@ -6,13 +6,39 @@ import math
 def _display_metric_name(col_name: str) -> str:
     """Convert column name like 'avg_F1' or 'avg_mean_IoU' to a pretty header.
     Examples:
-      'avg_F1' -> 'Avg F1'
-      'avg_mean_IoU' -> 'Avg mean IoU'
-      'overall_F1' -> 'Overall F1'
+      'avg_F1' -> 'F1'
+      'avg_precision' -> 'P'
+      'avg_recall' -> 'R'
+      'avg_mean_IoU' -> 'IoU'
     """
+    compact_metric_names = {
+        'avg_F1': 'F1',
+        'avg_precision': 'P',
+        'avg_recall': 'R',
+        'avg_mean_IoU': 'IoU',
+        'overall_F1': 'F1',
+        'overall_precision': 'P',
+        'overall_recall': 'R',
+        'overall_mean_IoU': 'IoU',
+    }
+    if col_name in compact_metric_names:
+        return compact_metric_names[col_name]
+
     parts = col_name.split('_')
     parts = [p.capitalize() if i == 0 else p for i, p in enumerate(parts)]
     return ' '.join(parts)
+
+
+def _find_flatbug_separator_index(model_keys):
+    """Return the first index where model key contains 'flatbug', else None.
+
+    This is used to draw a visual separator between arthro-only scenarios
+    and scenarios that include flatbug.
+    """
+    for idx, model_key in enumerate(model_keys):
+        if 'flatbug' in str(model_key).lower():
+            return idx if idx > 0 else None
+    return None
 
 
 def _generate_subtable(df_filtered, model_display_names, model_keys, metric_display_names, 
@@ -67,7 +93,11 @@ def _generate_subtable(df_filtered, model_display_names, model_keys, metric_disp
     latex.append(r"\midrule")
 
     # Rows
+    separator_index = _find_flatbug_separator_index(model_keys)
     for idx, row in df_filtered.iterrows():
+        if separator_index is not None and idx == separator_index:
+            latex.append(r"\midrule")
+
         # Add row color for alternating rows (every other row starting from the first data row)
         row_color = r"\rowcolor{gray!10} " if idx % 2 == 0 else ""
         
@@ -165,7 +195,11 @@ def _generate_single_table(df_filtered, model_display_names, model_keys, metric_
     latex.append(r"\midrule")
 
     # Rows
+    separator_index = _find_flatbug_separator_index(model_keys)
     for idx, row in df_filtered.iterrows():
+        if separator_index is not None and idx == separator_index:
+            latex.append(r"\midrule")
+
         # Add row color for alternating rows (every other row starting from the first data row)
         row_color = r"\rowcolor{gray!10} " if idx % 2 == 0 else ""
         
@@ -356,7 +390,11 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
             latex.append(r"\midrule")
             
             # Data rows
+            separator_index = _find_flatbug_separator_index(model_keys)
             for idx, model_key in enumerate(model_keys):
+                if separator_index is not None and idx == separator_index:
+                    latex.append(r"\midrule")
+
                 # Add row color for alternating rows
                 row_color = r"\rowcolor{gray!10} " if idx % 2 == 0 else ""
                 
@@ -499,7 +537,11 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
     latex.append(r"\midrule")
 
     # Rows
+    separator_index = _find_flatbug_separator_index(model_keys)
     for idx, row in df_filtered.iterrows():
+        if separator_index is not None and idx == separator_index:
+            latex.append(r"\midrule")
+
         # Add row color for alternating rows (every other row starting from the first data row)
         row_color = r"\rowcolor{gray!10} " if idx % 2 == 0 else ""
         
@@ -566,26 +608,26 @@ if __name__ == '__main__':
     
     # Example 2: Using dictionaries with custom display names
     scenarios_dict = {
-        'arthro_mosaic2x2': 'ArthroNat',
+        'arthro_no_mosaic': 'ArthroNat no mosaic',
+        'arthro_mosaic2x2': 'ArthroNat mosaic2x2',
         'arthro_mosaic3x3': 'ArthroNat mosaic3x3 ',
         'arthro_mosaic4x4': 'ArthroNat mosaic4x4',
-        'arthro_no_mosaic': 'ArthroNat no mosaic',
         'arthro+flatbug': 'ArthroNat+flatbug',
         'flatbug': 'flatbug',
     }
     
     metrics_dict = {
-        'avg_F1': 'F1-Score',
-        'avg_precision': 'Precision',
-        'avg_recall': 'Recall',
-        'avg_mean_IoU': 'Mean IoU'
+        'avg_F1': 'F1',
+        'avg_precision': 'P',
+        'avg_recall': 'R',
+        'avg_mean_IoU': 'IoU'
     }
     
     # Test datasets with custom display names
     test_datasets_multiple = {
         'arthro': 'ArthroNat',
         'flatbug': 'flatbug',
-        'OOD': 'OOD Dataset',
+        # 'OOD': 'OOD Dataset',
         # 'OOD(no_iNat)': 'OOD (no iNaturalist)'
     }
 
@@ -604,11 +646,4 @@ if __name__ == '__main__':
                                   test_datasets=test_datasets_multiple, 
                                   split_by_dataset=True, combined=True,
                                   use_resizebox=True, table_font_size='scriptsize')
-    
-    # print("\n\n=== Combined table - VERY COMPACT (resizebox + tiny + rotated headers) ===")
-    # generate_model_comparison_table(csv_path, scenarios_dict, metrics_dict, 
-    #                               test_datasets=test_datasets_multiple, 
-    #                               split_by_dataset=True, combined=True,
-    #                               use_resizebox=True, table_font_size='tiny', 
-    #                               rotate_headers=True)
 
