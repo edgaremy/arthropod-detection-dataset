@@ -1,0 +1,5 @@
+"level","metric","input_file","n","intercept","slope","slope_direction","r_squared","adjusted_r_squared","f_statistic","model_p_value","statistically_significant","strength_label"
+"class","F1","comparison_class_F1.csv",11,-30.910202887072,271.86345266613,"positive",0.00904772430284476,-0.10105808410795,0.082172997350771,0.780863649229931,FALSE,"weak"
+"class","mean_IoU","comparison_class_mean_IoU.csv",11,-1795.94233535167,2325.86626614864,"positive",0.0738951955634462,-0.0290053382628375,0.718122567645721,0.418724872941381,FALSE,"weak"
+"order","F1","comparison_order_F1.csv",67,10.2424394892246,24.510863903889,"positive",0.00527776434775738,-0.010025654662277,0.3448748507962,0.559063266759307,FALSE,"weak"
+"order","mean_IoU","comparison_order_mean_IoU.csv",67,-77.165370394817,125.204247233948,"positive",0.0269779341781094,0.0120083639346958,1.80218494849437,0.184118461898163,FALSE,"weak"

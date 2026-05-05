@@ -1,0 +1,40 @@
+SIMPLE LINEAR CORRELATION ANALYSIS (v2)
+=======================================
+Analysis date: 2026-03-31 14:42:11.92316
+Method: lm(number_of_images ~ ArthroNat_metric)
+Strength rule: R^2 < 0.10 weak, 0.10-0.30 moderate, > 0.30 strong
+Note: slope magnitude depends on metric scale; use R^2 for strength.
+
+RESULTS:
+- CLASS / F1
+  n = 11
+  slope = 271.863453 (positive)
+  intercept = -30.910203
+  R^2 = 0.0090 (weak)
+  adjusted R^2 = -0.1011
+  p-value = 0.780864 (not significant)
+
+- CLASS / mean_IoU
+  n = 11
+  slope = 2325.866266 (positive)
+  intercept = -1795.942335
+  R^2 = 0.0739 (weak)
+  adjusted R^2 = -0.0290
+  p-value = 0.418725 (not significant)
+
+- ORDER / F1
+  n = 67
+  slope = 24.510864 (positive)
+  intercept = 10.242439
+  R^2 = 0.0053 (weak)
+  adjusted R^2 = -0.0100
+  p-value = 0.559063 (not significant)
+
+- ORDER / mean_IoU
+  n = 67
+  slope = 125.204247 (positive)
+  intercept = -77.165370
+  R^2 = 0.0270 (weak)
+  adjusted R^2 = 0.0120
+  p-value = 0.184118 (not significant)
+
