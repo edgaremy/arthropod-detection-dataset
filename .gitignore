@@ -1,8 +1,10 @@
 /dataset
 /datasets(generalization)
+/datasets(others)
 /exported_models
 /results
 /output
 .vscode
 /runs
 yolo11*.pt
+/tmp
