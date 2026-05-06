@@ -196,7 +196,7 @@ if __name__ == "__main__":
     
     test_datasets = [
         ("arthro", "dataset"),
-        ("flatbug", "/media/disk2/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
+        ("flatbug", "datasets(others)/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
         ("SPIPOLL", "datasets(others)/SPIPOLL/"),
         ("OOD", "datasets(others)/OOD-split/"),
         ("Lepinoc", "datasets(others)/Lepinoc-split/"),

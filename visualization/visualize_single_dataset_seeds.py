@@ -34,7 +34,7 @@ DATASET_ROOT = REPO_ROOT / "datasets(others)" / "Lepinoc"
 # DATASET_ROOT = REPO_ROOT / "dataset"
 
 # DATASET_NAME = "flatbug"
-# DATASET_ROOT = Path("/media/disk2/flatbug-yolo-split")
+# DATASET_ROOT = Path("datasets(others)/flatbug-yolo-split")
 
 # DATASET_NAME = "SPIPOLL"
 # DATASET_ROOT = REPO_ROOT / "datasets(others)" / "SPIPOLL"

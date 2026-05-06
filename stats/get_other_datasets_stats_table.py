@@ -253,7 +253,7 @@ def parse_args():
     )
     parser.add_argument(
         "--flatbug_path",
-        default="/media/disk2/flatbug-yolo-split",
+        default="datasets(others)/flatbug-yolo-split",
         help="Path to the flatbug dataset root.",
     )
     parser.add_argument(

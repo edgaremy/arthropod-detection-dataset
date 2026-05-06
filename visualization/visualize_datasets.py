@@ -38,7 +38,7 @@ REPO_ROOT = SCRIPT_DIR.parent
 
 DATASETS = [
 	("ArthroNat", REPO_ROOT / "dataset"),
-	("flatbug", Path("/media/disk2/flatbug-yolo-split")),
+	("flatbug", Path("datasets(others)/flatbug-yolo-split")),
 	("SPIPOLL", REPO_ROOT / "datasets(others)" / "SPIPOLL"),
 	("OOD", REPO_ROOT / "datasets(others)" / "OOD"),
 	("Lepinoc", REPO_ROOT / "datasets(others)" / "Lepinoc"),

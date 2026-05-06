@@ -178,9 +178,8 @@ if __name__ == "__main__":
     
     test_datasets = [
         ("arthro", "dataset"),
-        # ("flatbug", "/media/disk2/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
-        # ("OOD", "/media/disk2/PAI/data/OOD_dataset"), # REPLACE with your path for the OOD dataset
-        # ("OOD(no_iNat)", "/media/disk2/PAI/data/OOD_dataset(exclude_inat)"), # REPLACE with your path for the OOD dataset excluding iNat images
+        # ("flatbug", "datasets(others)/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
+        # ("OOD", "datasets(others)/OOD-split/"), # REPLACE with your path for the OOD dataset
     ]
     
     compare_models(models, test_datasets, confidence=0.5, IoU_threshold=0.5, output_csv='validation/metrics/model_comparison.csv')

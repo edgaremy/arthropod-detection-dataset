@@ -282,49 +282,49 @@ def get_performance_metrics(model, path, output_csv, split='test', confidence=0.
 # # arthro
 # model_path = "runs/arthro/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # # arthro + flatbug
 # model_path = "runs/arthro_and_flatbug/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_and_flatbug.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # # flatbug
 # model_path = "runs/flatbug/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_flatbug.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # # arthro mosaic 3x3
 # model_path = "runs/arthro_mosaic_33/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_mosaic_33.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro mosaic 4x4
 # model_path = "runs/arthro_mosaic_44/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_mosaic_44.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro nomosaic
 # model_path = "runs/arthro_nomosaic/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_nomosaic.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro + flatbug mosaic 4x4
 # model_path = "runs/arthro_and_flatbug_mosaic44/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_and_flatbug_mosaic_44.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro mosaic 6x6
 # model_path = "runs/arthro_mosaic_66/train/weights/best.pt"
 # output_csv = "validation/metrics/validation(fb)_arthro_mosaic_66.csv"
-# path =  "/media/disk2/flatbug-yolo-split"
+# path =  "datasets(others)/flatbug-yolo-split"
 # get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # TESTED ON THE OOD DATASET
@@ -332,35 +332,35 @@ def get_performance_metrics(model, path, output_csv, split='test', confidence=0.
 # arthro
 model_path = "runs/arthro/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_arthro.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro + flatbug
 model_path = "runs/arthro_and_flatbug/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_arthro_and_flatbug.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # flatbug
 model_path = "runs/flatbug/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_flatbug.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro mosaic 3x3
 model_path = "runs/arthro_mosaic_33/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_arthro_mosaic_33.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro mosaic 4x4
 model_path = "runs/arthro_mosaic_44/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_arthro_mosaic_44.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)
 
 # arthro nomosaic
 model_path = "runs/arthro_nomosaic/train/weights/best.pt"
 output_csv = "validation/metrics/validation(OOD)_arthro_nomosaic.csv"
-path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD/"
+path = "datasets(others)/OOD-split/"
 get_performance_metrics(model_path, path, output_csv, split='test', confidence=0.5, IoU_threshold=0.5, include_hierarchy=False)

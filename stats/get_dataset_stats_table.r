@@ -8,7 +8,7 @@
 #   Option A – compute from raw directories and save CSV:
 #     datasets <- list(
 #       "ArthroNat" = "dataset",
-#       "Flatbug"   = "/media/disk2/flatbug-yolo-split"
+#       "Flatbug"   = "datasets(others)/flatbug-yolo-split"
 #     )
 #     get_dataset_stats_table(datasets = datasets, output_csv = "stats/dataset_stats.csv")
 #
@@ -212,7 +212,7 @@ get_dataset_stats_table <- function(datasets  = NULL,
 # # Option A: compute from directories
 # datasets <- list(
 #     "ArthroNat" = "dataset",
-#     "Flatbug"   = "/media/disk2/flatbug-yolo-split"
+#     "Flatbug"   = "datasets(others)/flatbug-yolo-split"
 # )
 # get_dataset_stats_table(
 #     datasets   = datasets,

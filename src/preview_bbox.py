@@ -25,9 +25,9 @@ def draw_bboxes(img, bboxes):
         cv2.rectangle(img, (x1, y1), (x2, y2), (0,255,0), 2)
     return img
 
-def main(dataset_dir):
-    img_dir = os.path.join(dataset_dir.strip(), 'images'.strip(), 'train'.strip())
-    label_dir = os.path.join(dataset_dir.strip(), 'labels'.strip(), 'train'.strip())
+def main(dataset_dir, split="train"):
+    img_dir = os.path.join(dataset_dir.strip(), 'images', split.strip())
+    label_dir = os.path.join(dataset_dir.strip(), 'labels', split.strip())
     print(os.path.join(img_dir, '*'))
     img_paths = sorted(glob.glob(os.path.join(img_dir, '*')))
     if not img_paths:
@@ -59,6 +59,9 @@ def main(dataset_dir):
     cv2.destroyAllWindows()
 
 # Example Usage
-dataset_dir = "/media/disk2/flatbug-yolo"
-# dataset_dir = "/media/disk2/arthropod-detection-dataset/dataset"
-main(dataset_dir)
+# dataset_dir = "datasets(others)/flatbug-yolo"
+dataset_dir = "dataset"
+# dataset_dir = "datasets(others)/Entomo_flower/"
+# dataset_dir = "datasets(others)/Entomo_barber/"
+# dataset_dir = "datasets(others)/Lepinoc/"
+main(dataset_dir, split="test")

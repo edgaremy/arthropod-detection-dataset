@@ -335,7 +335,7 @@ if __name__ == "__main__":
             print(f"Warning: generalization dataset path not found: {gen_path}")
     
     # Analyze flatbug dataset
-    flatbug_path = "/media/disk2/flatbug-yolo-split" # TODO Update with relative path down the line
+    flatbug_path = "datasets(others)/flatbug-yolo-split"
     if os.path.exists(flatbug_path):
         print("\n" + "="*50)
         print("Analyzing Flatbug dataset...")
@@ -351,7 +351,7 @@ if __name__ == "__main__":
         print(f"Warning: Flatbug dataset path not found: {flatbug_path}")
 
     # Analyse OOD-split dataset
-    ood_path = "/media/disk2/arthropod-detection-dataset/datasets(others)/OOD-split"
+    ood_path = "datasets(others)/OOD-split"
     if os.path.exists(ood_path):
         print("\n" + "="*50)
         print("Analyzing OOD-split dataset...")
@@ -364,7 +364,7 @@ if __name__ == "__main__":
         print(f"Warning: OOD dataset path not found: {ood_path}")
 
     # Analyze Lepinoc dataset
-    lepinoc_path= "/media/disk2/arthropod-detection-dataset/datasets(others)/Lepinoc"
+    lepinoc_path= "datasets(others)/Lepinoc"
     if os.path.exists(lepinoc_path):
         print("\n" + "="*50)
         print("Analyzing Lepinoc dataset...")
@@ -373,7 +373,7 @@ if __name__ == "__main__":
                                 plot_title='Lepinoc Dataset')
         
     # Analyse SPIPOLL dataset
-    spipoll_path = "/media/disk2/arthropod-detection-dataset/datasets(others)/SPIPOLL"
+    spipoll_path = "datasets(others)/SPIPOLL"
     if os.path.exists(spipoll_path):
         print("\n" + "="*50)
         print("Analyzing SPIPOLL dataset...")
