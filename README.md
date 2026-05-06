@@ -50,6 +50,29 @@ pip install -r requirements.txt
 
 <br />
 
+## Set up R
+
+The validation scripts were checked with R 4.5.2. Install the packages used by the plotting and analysis scripts:
+
+```r
+install.packages(c(
+    "ggplot2",
+    "dplyr",
+    "tidyr",
+    "broom",
+    "paletteer",
+    "sandwich",
+    "lmtest",
+    "gridExtra",
+    "car",
+    "betareg",
+    "Hmisc",
+    "mgcv"
+))
+```
+
+<br />
+
 ## Download the dataset
 
 The images on iNaturalist can have various copyrights. As such, they cannot be directly provided, but can be downloaded using our script.
@@ -60,7 +83,7 @@ python src/download_dataset.py
 
 The `src/download_dataset.py` script downloads images from iNaturalist and creates the structure of the yolo dataset accordingly with the labels stored in `resources/dataset_labels.zip`. Please note that due to API constraints, the download can be blocked after a while on iNaturalist's server. It that's the case, you should still be able to run the script again later, and it should resume where it stopped. 
 
-*Note:* You can also [download additional validation data](/validation/README.md#download-additional-validation-datasets), that was used to assess the generalization capabilities of the detection model.
+*Note:* You can also [download additional validation data](/validation/README.md#download-additional-validation-datasets), that was used to assess the generalization capabilities of the detection model to new taxa. The generalization datasets are stored in the [`datasets(others)/`](datasets(others)) folder. For publicly available datasets (OOD and flatbug), we provide setup instructions and conversion scripts in their respective README files.
 
 <br />
 
