@@ -1,0 +1,9 @@
+path: /media/disk2/arthropod-detection-dataset/datasets(others)/OOD-split
+train: images/train/
+val: images/val/
+test: images/test/
+
+nc: 1
+
+names:
+  0: "arthropod"
