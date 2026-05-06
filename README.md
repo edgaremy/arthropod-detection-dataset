@@ -2,7 +2,7 @@
 
 ### A detection dataset containing labelled images of **French Terrestrial Arthropods**. 
 
-**Associated Paper: *To be published*** \
+**Associated Paper: *Currently being reviewed*** \
 **Model Page: [huggingface.co/edgaremy/arthropod-detector](https://huggingface.co/edgaremy/arthropod-detector)** 
 
 <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/resources/dataset_thumbnail.png?raw=true" width="400" align="center">
