@@ -7,7 +7,24 @@
 
 <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/resources/dataset_thumbnail.png?raw=true" width="400" align="center">
 
-The data is extracted from [iNaturalist](https://www.inaturalist.org), and is designed to cover a **wide variety of arthropod families**. The data collection and annotation process is documented in this paper *(to be published)*.
+
+## What's in this repository
+
+### Dataset
+This repository provides scripts and metadata to recreate the French terrestrial arthropod detection dataset **ArthroNat** (in the [`src/`](src) folder).
+The data is extracted from [iNaturalist](https://www.inaturalist.org), and is designed to cover a **wide variety of arthropod families**. The data collection and annotation process is documented in this paper: *(to be published)*.
+
+### Code
+We provide several scripts arranged in multiple folders: Data download and processing scripts in [`src/`](src), inference utilities in [`inference/`](inference), and training/validation workflows in [`training/`](training) and [`validation/`](validation). Most figures shown in the paper associated to this repo are produced in the [`validation/`](validation) folder or the [`stats/`](stats) folder (statistical analysis of the datasets used).
+
+Note that you don't necessarily need to have the dataset downloaded in order to play around with the figure plots, as results of most tests have been stored in intermediary `.csv` files. If you wish to do so, you can however start from scratch, download the dataset, train the models again and re-generate those result `.csv` files by yourself.
+
+**Each of those folders has its own `README.md` file detailing what scripts they contain and their function.**
+
+### Requirements
+
+In order to run most scripts in this repository, you will need to have a proper Python and R environments set up. The following section details this required process.
+
 
 <br />
 
