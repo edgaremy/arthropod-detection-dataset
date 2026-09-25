@@ -26,3 +26,4 @@ validation/bbox_properties(old)/*
 datasets(others)/flatbug-yolo-split/data.yaml
 datasets(others)/flatbug-yolo-split/images
 datasets(others)/flatbug-yolo-split/labels
+__pycache__
