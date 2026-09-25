@@ -714,7 +714,7 @@ if __name__ == '__main__':
         'arthro': 'ArthroNat',
         'flatbug': 'flatbug',
         'SPIPOLL': 'SPIPOLL',
-        'OOD': 'OOD',
+        'PSTL': 'PSTL',
         'Lepinoc': 'Lepinoc',
     }
     

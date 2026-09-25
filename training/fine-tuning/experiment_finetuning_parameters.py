@@ -32,7 +32,7 @@ model = YOLO("runs/arthro_and_flatbug/train/weights/best.pt")
 # )
 
 model.train(
-	data="datasets(others)/OOD-split/subsets/OOD-split500-fold0/OOD-split500-fold0.yaml",
+	data="datasets(others)/PSTL-split/subsets/PSTL-split500-fold0/PSTL-split500-fold0.yaml",
 	epochs=20,
 	warmup_epochs=0,
     optimizer="AdamW",
@@ -44,11 +44,11 @@ model.train(
 	device=["0", "1"],
 )
 
-# Validate on OOD test split.
+# Validate on PSTL test split.
 best_weights = Path("runs/fine_tuning/experiment") / "train3" / "weights" / "best.pt"
 model = YOLO(str(best_weights))
 model.val(
-	data="datasets(others)/OOD-split/OOD-split.yaml",
+	data="datasets(others)/PSTL-split/PSTL-split.yaml",
 	project="runs/fine_tuning/experiment",
 	name="val_common_test3",
 	device=["0", "1"],

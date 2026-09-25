@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build a YOLO test dataset in OOD/ from COCO single-class annotations.
+"""Build a YOLO test dataset in PSTL/ from COCO single-class annotations.
 
-Output structure (at OOD root):
+Output structure (at PSTL root):
 - images/test/
 - labels/test/
-- OOD.yaml
+- PSTL.yaml
 """
 
 from __future__ import annotations
@@ -18,10 +18,10 @@ from pathlib import Path
 # ============================
 # Configuration (edit here)
 # ============================
-OOD_ROOT = Path(__file__).resolve().parent
-COCO_JSON = OOD_ROOT / "annotations/cropped/processed/ground_truth_coco_single_cls.json"
-SOURCE_IMAGES = OOD_ROOT / "cropped"
-YAML_NAME = "OOD.yaml"
+PSTL_ROOT = Path(__file__).resolve().parent
+COCO_JSON = PSTL_ROOT / "annotations/cropped/processed/ground_truth_coco_single_cls.json"
+SOURCE_IMAGES = PSTL_ROOT / "cropped"
+YAML_NAME = "PSTL.yaml"
 
 # Exactly one mode should be True.
 COPY_IMAGES = True
@@ -52,7 +52,7 @@ def main() -> None:
     if COPY_IMAGES == SYMLINK_IMAGES:
         raise ValueError("Set exactly one of COPY_IMAGES or SYMLINK_IMAGES to True")
 
-    ood_root = OOD_ROOT.resolve()
+    pstl_root = PSTL_ROOT.resolve()
     coco_json = COCO_JSON.resolve()
     source_images = SOURCE_IMAGES.resolve()
 
@@ -61,8 +61,8 @@ def main() -> None:
     if not source_images.exists():
         raise FileNotFoundError(f"Source images directory not found: {source_images}")
 
-    images_test_dir = ood_root / "images" / "test"
-    labels_test_dir = ood_root / "labels" / "test"
+    images_test_dir = pstl_root / "images" / "test"
+    labels_test_dir = pstl_root / "labels" / "test"
 
     safe_prepare_dir(images_test_dir, force=FORCE)
     safe_prepare_dir(labels_test_dir, force=FORCE)
@@ -129,9 +129,9 @@ def main() -> None:
         label_path.write_text("\n".join(yolo_lines), encoding="utf-8")
         label_files_written += 1
 
-    yaml_path = ood_root / YAML_NAME
+    yaml_path = pstl_root / YAML_NAME
     yaml_content = (
-        f"path: {ood_root}\n"
+        f"path: {pstl_root}\n"
         "train: images/train/\n"
         "val: images/val/\n"
         "test: images/test/\n\n"
@@ -141,7 +141,7 @@ def main() -> None:
     )
     yaml_path.write_text(yaml_content, encoding="utf-8")
 
-    print(f"YOLO dataset created at: {ood_root}")
+    print(f"YOLO dataset created at: {pstl_root}")
     print(f"Images prepared in: {images_test_dir}")
     print(f"Labels written in: {labels_test_dir}")
     print(f"YAML written: {yaml_path}")

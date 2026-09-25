@@ -198,7 +198,7 @@ if __name__ == "__main__":
         ("arthro", "dataset"),
         ("flatbug", "datasets(others)/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
         ("SPIPOLL", "datasets(others)/SPIPOLL/"),
-        ("OOD", "datasets(others)/OOD-split/"),
+        ("PSTL", "datasets(others)/PSTL-split/"),
         ("Lepinoc", "datasets(others)/Lepinoc-split/"),
         # ("Entomo barber", "datasets(others)/Entomo_barber/"),
         # ("Entomo flower", "datasets(others)/Entomo_flower/"),

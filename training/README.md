@@ -33,15 +33,15 @@ Scripts for training YOLO models with various configurations.
 
 ## Fine-Tuning
 
-The [`fine-tuning/`](fine-tuning/) subdirectory contains the scripts used for OOD and Lepinoc subset fine-tuning experiments. See [its README](fine-tuning/README.md) for the matrix launchers, wrappers, and dataset-specific commands.
+The [`fine-tuning/`](fine-tuning/) subdirectory contains the scripts used for PSTL and Lepinoc subset fine-tuning experiments. See [its README](fine-tuning/README.md) for the matrix launchers, wrappers, and dataset-specific commands.
 
 Main entry points:
 
-**`fine-tuning/finetune_on_OOD_subset_case.py`** - Run a single OOD subset fine-tuning case.
+**`fine-tuning/finetune_on_PSTL_subset_case.py`** - Run a single PSTL subset fine-tuning case.
 
 **`fine-tuning/finetune_on_Lepinoc_subset_case.py`** - Run a single Lepinoc subset fine-tuning case.
 
-**`fine-tuning/run_matrix_ood_folds.sh`** - Run the OOD subset matrix over sizes and folds.
+**`fine-tuning/run_matrix_pstl_folds.sh`** - Run the PSTL subset matrix over sizes and folds.
 
 **`fine-tuning/run_matrix_lepinoc_folds.sh`** - Run the Lepinoc subset matrix over sizes and folds.
 
@@ -64,7 +64,7 @@ python training/train_ALL_DATASETS.py
 python training/train_with_flatbug_nano.py
 
 # Run a fine-tuning subset case
-python training/fine-tuning/finetune_on_OOD_subset_case.py --mode transfer --size 500 --fold 2
+python training/fine-tuning/finetune_on_PSTL_subset_case.py --mode transfer --size 500 --fold 2
 
 # Export trained model to ONNX
 python training/export_models.py

@@ -350,18 +350,18 @@ if __name__ == "__main__":
     else:
         print(f"Warning: Flatbug dataset path not found: {flatbug_path}")
 
-    # Analyse OOD-split dataset
-    ood_path = "datasets(others)/OOD-split"
-    if os.path.exists(ood_path):
+    # Analyse PSTL-split dataset
+    pstl_path = "datasets(others)/PSTL-split"
+    if os.path.exists(pstl_path):
         print("\n" + "="*50)
-        print("Analyzing OOD-split dataset...")
+        print("Analyzing PSTL-split dataset...")
         
-        analyze_bbox_statistics(ood_path, split='all', output_dir='stats/OOD',
-                                plot_title='OOD Dataset')
-        compare_dataset_splits(ood_path, splits=['train', 'val', 'test'], 
-                             output_dir='stats/OOD', dataset_name='OOD Dataset')
+        analyze_bbox_statistics(pstl_path, split='all', output_dir='stats/PSTL',
+                                plot_title='PSTL Dataset')
+        compare_dataset_splits(pstl_path, splits=['train', 'val', 'test'], 
+                             output_dir='stats/PSTL', dataset_name='PSTL Dataset')
     else:
-        print(f"Warning: OOD dataset path not found: {ood_path}")
+        print(f"Warning: PSTL dataset path not found: {pstl_path}")
 
     # Analyze Lepinoc dataset
     lepinoc_path= "datasets(others)/Lepinoc"

@@ -10,8 +10,8 @@ from tqdm import tqdm
 from ultralytics import YOLO
 
 
-DATASET_ROOT = Path("datasets(others)/OOD-split")
-OUTPUT_CSV = Path("validation/fine-tuning/finetuning_oodsplit_test_metrics.csv")
+DATASET_ROOT = Path("datasets(others)/PSTL-split")
+OUTPUT_CSV = Path("validation/fine-tuning/finetuning_pstlsplit_test_metrics.csv")
 
 # DATASET_ROOT = Path("datasets(others)/Lepinoc-split")
 # OUTPUT_CSV = Path("validation/fine-tuning/finetuning_lepinoc_test_metrics.csv")

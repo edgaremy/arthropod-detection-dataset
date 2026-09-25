@@ -182,12 +182,12 @@ def dataframe_to_latex(df, caption="Bounding-box statistics across datasets", la
     return "\n".join(latex)
 
 
-def build_other_datasets_table(flatbug_path, ood_path, lepinoc_path):
+def build_other_datasets_table(flatbug_path, pstl_path, lepinoc_path):
     datasets_config = [
         {"dataset": "ArthroNat", "path": "dataset", "split": "test"},
         {"dataset": "flatbug", "path": flatbug_path, "split": "test"},
         {"dataset": "SPIPOLL", "path": "datasets(others)/SPIPOLL", "split": "test"},
-        {"dataset": "OOD", "path": ood_path, "split": "test"},
+        {"dataset": "PSTL", "path": pstl_path, "split": "test"},
         {"dataset": "Lepinoc", "path": lepinoc_path, "split": "test"},
     ]
 
@@ -257,9 +257,9 @@ def parse_args():
         help="Path to the flatbug dataset root.",
     )
     parser.add_argument(
-        "--ood_path",
-        default="datasets(others)/OOD-split",
-        help="Path to the OOD dataset root.",
+        "--pstl_path",
+        default="datasets(others)/PSTL-split",
+        help="Path to the PSTL dataset root.",
     )
     parser.add_argument(
         "--lepinoc_path",
@@ -274,7 +274,7 @@ def main():
 
     df = build_other_datasets_table(
         flatbug_path=args.flatbug_path,
-        ood_path=args.ood_path,
+        pstl_path=args.pstl_path,
         lepinoc_path=args.lepinoc_path,
     )
 
@@ -284,7 +284,7 @@ def main():
 
     latex_code = dataframe_to_latex(
         df,
-        caption="Bounding-box statistics across ArthroNat, flatbug, OOD, Lepinoc, and SPIPOLL.",
+        caption="Bounding-box statistics across ArthroNat, flatbug, PSTL, Lepinoc, and SPIPOLL.",
         label="tab:other_datasets_bbox_stats",
     )
     print("\nLaTeX table:\n")

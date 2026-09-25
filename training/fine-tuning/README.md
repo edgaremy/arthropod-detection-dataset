@@ -1,13 +1,13 @@
-# Fine-Tuning Scripts (OOD-split + Lepinoc-split)
+# Fine-Tuning Scripts (PSTL-split + Lepinoc-split)
 
 This folder provides one-case runners and matrix launchers for 5-fold subset
 fine-tuning experiments.
 
 ## Datasets
 
-- OOD:
-	- `datasets(others)/OOD-split/OOD-split.yaml`
-	- `datasets(others)/OOD-split/subsets/OOD-split<N>-fold<F>/OOD-split<N>-fold<F>.yaml`
+- PSTL:
+	- `datasets(others)/PSTL-split/PSTL-split.yaml`
+	- `datasets(others)/PSTL-split/subsets/PSTL-split<N>-fold<F>/PSTL-split<N>-fold<F>.yaml`
 - Lepinoc:
 	- `datasets(others)/Lepinoc-split/Lepinoc-split.yaml`
 	- `datasets(others)/Lepinoc-split/subsets/Lepinoc-split<N>-fold<F>/Lepinoc-split<N>-fold<F>.yaml`
@@ -16,11 +16,11 @@ Defaults assume two GPUs: `DEVICES="0 1"`.
 
 ## Scripts
 
-- OOD single-case runner: `finetune_on_OOD_subset_case.py`
-- OOD matrix launcher: `run_matrix_ood_folds.sh`
-- OOD wrappers:
-	- `run_all_arthro_flatbug_11l_OODsplit.sh` (transfer)
-	- `run_all_fromscratch_11l_OODsplit.sh` (scratch)
+- PSTL single-case runner: `finetune_on_PSTL_subset_case.py`
+- PSTL matrix launcher: `run_matrix_pstl_folds.sh`
+- PSTL wrappers:
+	- `run_all_arthro_flatbug_11l_PSTLsplit.sh` (transfer)
+	- `run_all_fromscratch_11l_PSTLsplit.sh` (scratch)
 
 - Lepinoc single-case runner: `finetune_on_Lepinoc_subset_case.py`
 - Lepinoc matrix launcher: `run_matrix_lepinoc_folds.sh`
@@ -35,11 +35,11 @@ folds, so size/fold is the main variable.
 
 Run from repository root.
 
-OOD one-case:
+PSTL one-case:
 
 ```bash
-python training/fine-tuning/finetune_on_OOD_subset_case.py --mode transfer --size 500 --fold 2
-python training/fine-tuning/finetune_on_OOD_subset_case.py --mode scratch --size 500 --fold 2
+python training/fine-tuning/finetune_on_PSTL_subset_case.py --mode transfer --size 500 --fold 2
+python training/fine-tuning/finetune_on_PSTL_subset_case.py --mode scratch --size 500 --fold 2
 ```
 
 Lepinoc one-case:
@@ -49,10 +49,10 @@ python training/fine-tuning/finetune_on_Lepinoc_subset_case.py --mode transfer -
 python training/fine-tuning/finetune_on_Lepinoc_subset_case.py --mode scratch --size 500 --fold 2
 ```
 
-OOD matrix:
+PSTL matrix:
 
 ```bash
-bash training/fine-tuning/run_matrix_ood_folds.sh
+bash training/fine-tuning/run_matrix_pstl_folds.sh
 ```
 
 Lepinoc matrix:
@@ -64,7 +64,7 @@ bash training/fine-tuning/run_matrix_lepinoc_folds.sh
 Transfer-only or scratch-only (works for either matrix launcher):
 
 ```bash
-MODES="transfer" bash training/fine-tuning/run_matrix_ood_folds.sh
+MODES="transfer" bash training/fine-tuning/run_matrix_pstl_folds.sh
 MODES="scratch" bash training/fine-tuning/run_matrix_lepinoc_folds.sh
 ```
 
@@ -77,7 +77,7 @@ MODES="transfer scratch" SIZES="100 500" FOLDS="0 1" bash training/fine-tuning/r
 Dry run and shared overrides:
 
 ```bash
-DRY_RUN=1 bash training/fine-tuning/run_matrix_ood_folds.sh
+DRY_RUN=1 bash training/fine-tuning/run_matrix_pstl_folds.sh
 EPOCHS=20 WARMUP_EPOCHS=0 LR0=0.001 LRF=0.01 FREEZE=10 DEVICES="0 1" VAL_COMMON_TEST=1 \
 	bash training/fine-tuning/run_matrix_lepinoc_folds.sh
 ```

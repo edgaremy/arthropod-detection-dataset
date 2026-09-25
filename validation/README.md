@@ -80,7 +80,7 @@ python validation/plot_from_metrics/generalization/plot_generalization_metrics.p
 
 Compare fine-tuning results on external validation sets in the [`fine-tuning/plots`](fine-tuning/plots) folder:
 
-<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/fine-tuning/plots/OOD_f1_mean_iou_sidebyside.png?raw=true" width="500">
+<img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/fine-tuning/plots/PSTL_f1_mean_iou_sidebyside.png?raw=true" width="500">
 
 <img src="https://github.com/edgaremy/arthropod-detection-dataset/blob/main/validation/fine-tuning/plots/Lepinoc_f1_mean_iou_sidebyside.png?raw=true" width="500">
 

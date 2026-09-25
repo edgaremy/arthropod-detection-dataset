@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Build a YOLO dataset in OOD-split/ from COCO single-class annotations.
+"""Build a YOLO dataset in PSTL-split/ from COCO single-class annotations.
 
-Output structure (at OOD-split root):
+Output structure (at PSTL-split root):
 - images/train/, images/val/, images/test/
 - labels/train/, labels/val/, labels/test/
-- OOD-split.yaml
+- PSTL-split.yaml
 
 Split strategy:
 - Sort images by date_captured ascending (earliest first)
@@ -24,11 +24,11 @@ from pathlib import Path
 # ============================
 # Configuration (edit here)
 # ============================
-OOD_SPLIT_ROOT = Path(__file__).resolve().parent
-SOURCE_ROOT = OOD_SPLIT_ROOT.parent / "OOD"
+PSTL_SPLIT_ROOT = Path(__file__).resolve().parent
+SOURCE_ROOT = PSTL_SPLIT_ROOT.parent / "PSTL"
 COCO_JSON = SOURCE_ROOT / "annotations/cropped/processed/ground_truth_coco_single_cls.json"
 SOURCE_IMAGES = SOURCE_ROOT / "cropped"
-YAML_NAME = "OOD-split.yaml"
+YAML_NAME = "PSTL-split.yaml"
 
 # Exactly one mode should be True.
 COPY_IMAGES = True
@@ -85,7 +85,7 @@ def main() -> None:
     if COPY_IMAGES == SYMLINK_IMAGES:
         raise ValueError("Set exactly one of COPY_IMAGES or SYMLINK_IMAGES to True")
 
-    out_root = OOD_SPLIT_ROOT.resolve()
+    out_root = PSTL_SPLIT_ROOT.resolve()
     coco_json = COCO_JSON.resolve()
     source_images = SOURCE_IMAGES.resolve()
 

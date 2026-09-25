@@ -27,7 +27,7 @@ for mode in "${MODES_ARR[@]}"; do
 
     for size in "${SIZES_ARR[@]}"; do
         for fold in "${FOLDS_ARR[@]}"; do
-            run_name="${mode}_11l_OOD-split${size}-fold${fold}"
+            run_name="${mode}_11l_PSTL-split${size}-fold${fold}"
             train_dir="runs/fine_tuning/${run_name}/train"
             best_weights="${train_dir}/weights/best.pt"
             last_weights="${train_dir}/weights/last.pt"
@@ -38,7 +38,7 @@ for mode in "${MODES_ARR[@]}"; do
             fi
 
             cmd=(
-                python training/fine-tuning/finetune_on_OOD_subset_case.py
+                python training/fine-tuning/finetune_on_PSTL_subset_case.py
                 --mode "$mode"
                 --size "$size"
                 --fold "$fold"

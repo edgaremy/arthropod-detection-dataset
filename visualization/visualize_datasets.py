@@ -1,7 +1,7 @@
 """Create seeded 5x5 dataset visualization grids.
 
 The script samples 5 random test images from each dataset column
-(ArthroNat, flatbug, OOD, Lepinoc, SPIPOLL) and exports two PNG files:
+(ArthroNat, flatbug, PSTL, Lepinoc, SPIPOLL) and exports two PNG files:
 1) images only
 2) images with YOLO bounding boxes overlaid
 
@@ -22,7 +22,7 @@ import matplotlib.image as mpimg
 DATASET_SEEDS = {
 	"ArthroNat": 8, #8
 	"flatbug": 0,
-	"OOD": 2,
+	"PSTL": 2,
 	"Lepinoc": 83, #25, 83
 	"SPIPOLL": 1,
 }
@@ -40,15 +40,15 @@ DATASETS = [
 	("ArthroNat", REPO_ROOT / "dataset"),
 	("flatbug", Path("datasets(others)/flatbug-yolo-split")),
 	("SPIPOLL", REPO_ROOT / "datasets(others)" / "SPIPOLL"),
-	("OOD", REPO_ROOT / "datasets(others)" / "OOD"),
+	("PSTL", REPO_ROOT / "datasets(others)" / "PSTL"),
 	("Lepinoc", REPO_ROOT / "datasets(others)" / "Lepinoc"),
 ]
 
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
-OOD_COCO_JSON = (
+PSTL_COCO_JSON = (
 	REPO_ROOT
 	/ "datasets(others)"
-	/ "OOD"
+	/ "PSTL"
 	/ "annotations"
 	/ "cropped"
 	/ "processed"
@@ -105,7 +105,7 @@ def sample_paths(paths: list[Path], k: int, rng: random.Random) -> list[Path | N
 	return padded
 
 
-def load_ood_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
+def load_pstl_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
 	if not coco_json_path.is_file():
 		return {}
 
@@ -127,13 +127,13 @@ def load_ood_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
 	return dates_by_filename
 
 
-def sample_ood_paths_by_distinct_date(paths: list[Path], k: int, rng: random.Random) -> list[Path | None]:
+def sample_pstl_paths_by_distinct_date(paths: list[Path], k: int, rng: random.Random) -> list[Path | None]:
 	if len(paths) < k:
 		padded = list(paths)
 		padded.extend([None] * (k - len(paths)))
 		return padded
 
-	dates_by_filename = load_ood_dates_by_filename(OOD_COCO_JSON)
+	dates_by_filename = load_pstl_dates_by_filename(PSTL_COCO_JSON)
 	if not dates_by_filename:
 		return sample_paths(paths, k, rng)
 
@@ -156,21 +156,21 @@ def sample_ood_paths_by_distinct_date(paths: list[Path], k: int, rng: random.Ran
 			end = ((i + 1) * len(unique_dates)) // k
 			chosen_dates.append(unique_dates[rng.randrange(start, end)])
 		chosen_paths = [rng.choice(paths_by_date[date_value]) for date_value in chosen_dates]
-		print(f"OOD sampled distinct dates: {', '.join(sorted(chosen_dates))}")
-		print("OOD selected images and dates:")
+		print(f"PSTL sampled distinct dates: {', '.join(sorted(chosen_dates))}")
+		print("PSTL selected images and dates:")
 		for path in chosen_paths:
 			print(f"  - {path.name}: {dates_by_filename.get(path.name, 'unknown')}")
 		return chosen_paths
 
 	# Not enough unique dates: keep strict one-image-per-date and pad with None.
 	print(
-		f"Warning: only {len(unique_dates)} unique OOD dates available in split '{TEST_SPLIT}'. "
+		f"Warning: only {len(unique_dates)} unique PSTL dates available in split '{TEST_SPLIT}'. "
 		f"Padding {k - len(unique_dates)} slots with None to avoid repeated dates."
 	)
 	chosen_paths = [rng.choice(paths_by_date[date_value]) for date_value in unique_dates]
 	chosen_paths.extend([None] * (k - len(chosen_paths)))
 
-	print("OOD selected images and dates:")
+	print("PSTL selected images and dates:")
 	for path in chosen_paths:
 		if path is None:
 			print("  - None: no image")
@@ -185,8 +185,8 @@ def build_column_samples(dataset_seeds: dict[str, int]) -> list[tuple[str, Path,
 	for dataset_name, dataset_root in DATASETS:
 		rng = random.Random(dataset_seeds.get(dataset_name, 0))
 		paths = list_test_images(dataset_root, split=TEST_SPLIT)
-		if dataset_name == "OOD":
-			chosen = sample_ood_paths_by_distinct_date(paths, N_ROWS, rng)
+		if dataset_name == "PSTL":
+			chosen = sample_pstl_paths_by_distinct_date(paths, N_ROWS, rng)
 		else:
 			chosen = sample_paths(paths, N_ROWS, rng)
 		samples.append((dataset_name, dataset_root, chosen))

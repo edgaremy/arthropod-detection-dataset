@@ -7,8 +7,8 @@ Default behavior:
 - Left arrow: previous seed (n - 1, clamped at 0)
 
 The sampling behavior matches `visualization/visualize_datasets.py` exactly:
-- Non-OOD datasets: `random.Random(seed).sample(sorted_test_images, 5)`
-- OOD dataset: uses the same distinct-date sampling strategy based on COCO metadata.
+- Non-PSTL datasets: `random.Random(seed).sample(sorted_test_images, 5)`
+- PSTL dataset: uses the same distinct-date sampling strategy based on COCO metadata.
 """
 
 from pathlib import Path
@@ -39,14 +39,14 @@ DATASET_ROOT = REPO_ROOT / "datasets(others)" / "Lepinoc"
 # DATASET_NAME = "SPIPOLL"
 # DATASET_ROOT = REPO_ROOT / "datasets(others)" / "SPIPOLL"
 
-# DATASET_NAME = "OOD"
-# DATASET_ROOT = REPO_ROOT / "datasets(others)" / "OOD"
+# DATASET_NAME = "PSTL"
+# DATASET_ROOT = REPO_ROOT / "datasets(others)" / "PSTL"
 
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
-OOD_COCO_JSON = (
+PSTL_COCO_JSON = (
     REPO_ROOT
     / "datasets(others)"
-    / "OOD"
+    / "PSTL"
     / "annotations"
     / "cropped"
     / "processed"
@@ -74,7 +74,7 @@ def sample_paths(paths: list[Path], k: int, rng: random.Random) -> list[Path | N
     return padded
 
 
-def load_ood_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
+def load_pstl_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
     if not coco_json_path.is_file():
         return {}
 
@@ -95,13 +95,13 @@ def load_ood_dates_by_filename(coco_json_path: Path) -> dict[str, str]:
     return dates_by_filename
 
 
-def sample_ood_paths_by_distinct_date(paths: list[Path], k: int, rng: random.Random) -> list[Path | None]:
+def sample_pstl_paths_by_distinct_date(paths: list[Path], k: int, rng: random.Random) -> list[Path | None]:
     if len(paths) < k:
         padded = list(paths)
         padded.extend([None] * (k - len(paths)))
         return padded
 
-    dates_by_filename = load_ood_dates_by_filename(OOD_COCO_JSON)
+    dates_by_filename = load_pstl_dates_by_filename(PSTL_COCO_JSON)
     if not dates_by_filename:
         return sample_paths(paths, k, rng)
 
@@ -132,8 +132,8 @@ def sample_for_seed(dataset_name: str, dataset_root: Path, seed: int) -> list[Pa
     rng = random.Random(seed)
     paths = list_test_images(dataset_root, split=TEST_SPLIT)
 
-    if dataset_name == "OOD":
-        return sample_ood_paths_by_distinct_date(paths, N_ROWS, rng)
+    if dataset_name == "PSTL":
+        return sample_pstl_paths_by_distinct_date(paths, N_ROWS, rng)
     return sample_paths(paths, N_ROWS, rng)
 
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Run one OOD-split fine-tuning case for a given subset size and fold.
+"""Run one PSTL-split fine-tuning case for a given subset size and fold.
 
 Examples:
 - Transfer mode:
-    python training/fine-tuning/finetune_on_OOD_subset_case.py --mode transfer --size 500 --fold 2
+    python training/fine-tuning/finetune_on_PSTL_subset_case.py --mode transfer --size 500 --fold 2
 - Scratch mode:
-    python training/fine-tuning/finetune_on_OOD_subset_case.py --mode scratch --size 500 --fold 2
+    python training/fine-tuning/finetune_on_PSTL_subset_case.py --mode scratch --size 500 --fold 2
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ from ultralytics import YOLO
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run one OOD subset fine-tuning case")
+    parser = argparse.ArgumentParser(description="Run one PSTL subset fine-tuning case")
     parser.add_argument("--mode", choices=["transfer", "scratch"], required=True)
     parser.add_argument("--size", type=int, required=True)
     parser.add_argument("--fold", type=int, required=True)
@@ -36,9 +36,9 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "--ood-root",
-        default="datasets(others)/OOD-split",
-        help="Root folder that contains OOD-split.yaml and subsets/",
+        "--pstl-root",
+        default="datasets(others)/PSTL-split",
+        help="Root folder that contains PSTL-split.yaml and subsets/",
     )
     parser.add_argument(
         "--project-root",
@@ -49,16 +49,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--val-common-test",
         action="store_true",
-        help="Also validate the trained model on OOD-split test split",
+        help="Also validate the trained model on PSTL-split test split",
     )
 
     return parser.parse_args()
 
 
 def build_paths(args: argparse.Namespace) -> tuple[Path, Path, str]:
-    subset_name = f"OOD-split{args.size}-fold{args.fold}"
-    ood_root = Path(args.ood_root)
-    dataset_yaml = ood_root / "subsets" / subset_name / f"{subset_name}.yaml"
+    subset_name = f"PSTL-split{args.size}-fold{args.fold}"
+    pstl_root = Path(args.pstl_root)
+    dataset_yaml = pstl_root / "subsets" / subset_name / f"{subset_name}.yaml"
     if not dataset_yaml.exists():
         raise FileNotFoundError(f"Subset YAML not found: {dataset_yaml}")
 
@@ -111,7 +111,7 @@ def main() -> None:
 
         model = YOLO(str(best_weights))
         model.val(
-            data=str(Path(args.ood_root) / "OOD-split.yaml"),
+            data=str(Path(args.pstl_root) / "PSTL-split.yaml"),
             project=str(project_dir),
             name="val_common_test",
             device=args.device,

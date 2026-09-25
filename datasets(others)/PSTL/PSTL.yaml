@@ -1,4 +1,4 @@
-path: /media/disk2/arthropod-detection-dataset/datasets(others)/OOD-split
+path: /media/disk2/arthropod-detection-dataset/datasets(others)/PSTL
 train: images/train/
 val: images/val/
 test: images/test/

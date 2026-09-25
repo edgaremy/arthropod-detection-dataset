@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Build symlink-based fine-tuning subsets from OOD-split.
+"""Build symlink-based fine-tuning subsets from PSTL-split.
 
 For each size N in SUBSET_SIZES, this script creates NUM_FOLDS subsets:
-- subsets/OOD-split<N>-fold<F>/images/train
-- subsets/OOD-split<N>-fold<F>/images/val
-- subsets/OOD-split<N>-fold<F>/labels/train
-- subsets/OOD-split<N>-fold<F>/labels/val
-- subsets/OOD-split<N>-fold<F>/OOD-split<N>-fold<F>.yaml
+- subsets/PSTL-split<N>-fold<F>/images/train
+- subsets/PSTL-split<N>-fold<F>/images/val
+- subsets/PSTL-split<N>-fold<F>/labels/train
+- subsets/PSTL-split<N>-fold<F>/labels/val
+- subsets/PSTL-split<N>-fold<F>/PSTL-split<N>-fold<F>.yaml
 
 Selection strategy (diversity-oriented):
 - Read image date metadata from the source COCO JSON.
-- For each split pool (train from OOD-split train, val from OOD-split val),
+- For each split pool (train from PSTL-split train, val from PSTL-split val),
   sort by date and pick temporally spread images for each fold.
 - Enforce disjoint folds when feasible; otherwise warn and allow overlap.
 """
@@ -30,10 +30,10 @@ SUBSET_SIZES = [100, 500, 1000, 2000]
 VAL_RATIO = 0.20
 NUM_FOLDS = 5
 
-OOD_SPLIT_ROOT = Path(__file__).resolve().parent
-SUBSETS_ROOT = OOD_SPLIT_ROOT / "subsets"
+PSTL_SPLIT_ROOT = Path(__file__).resolve().parent
+SUBSETS_ROOT = PSTL_SPLIT_ROOT / "subsets"
 
-SOURCE_ROOT = OOD_SPLIT_ROOT.parent / "OOD"
+SOURCE_ROOT = PSTL_SPLIT_ROOT.parent / "PSTL"
 COCO_JSON = SOURCE_ROOT / "annotations/cropped/processed/ground_truth_coco_single_cls.json"
 
 FORCE = True
@@ -306,7 +306,7 @@ def build_one_subset(
         n_val_target = 1
     n_val = min(n_val_target, len(val_pool))
 
-    subset_name = f"OOD-split{n_train_target}-fold{fold_idx}"
+    subset_name = f"PSTL-split{n_train_target}-fold{fold_idx}"
     subset_root = SUBSETS_ROOT / subset_name
 
     out_img_train = subset_root / "images" / "train"
@@ -334,10 +334,10 @@ def build_one_subset(
         num_folds,
     )
 
-    src_img_train = OOD_SPLIT_ROOT / "images" / "train"
-    src_img_val = OOD_SPLIT_ROOT / "images" / "val"
-    src_lbl_train = OOD_SPLIT_ROOT / "labels" / "train"
-    src_lbl_val = OOD_SPLIT_ROOT / "labels" / "val"
+    src_img_train = PSTL_SPLIT_ROOT / "images" / "train"
+    src_img_val = PSTL_SPLIT_ROOT / "images" / "val"
+    src_lbl_train = PSTL_SPLIT_ROOT / "labels" / "train"
+    src_lbl_val = PSTL_SPLIT_ROOT / "labels" / "val"
 
     for fn in chosen_train:
         symlink_file(src_img_train / fn, out_img_train / fn)
@@ -367,24 +367,24 @@ def main() -> None:
     if not COCO_JSON.exists():
         raise FileNotFoundError(f"COCO JSON not found: {COCO_JSON}")
 
-    src_train_images = OOD_SPLIT_ROOT / "images" / "train"
-    src_val_images = OOD_SPLIT_ROOT / "images" / "val"
-    src_train_labels = OOD_SPLIT_ROOT / "labels" / "train"
-    src_val_labels = OOD_SPLIT_ROOT / "labels" / "val"
+    src_train_images = PSTL_SPLIT_ROOT / "images" / "train"
+    src_val_images = PSTL_SPLIT_ROOT / "images" / "val"
+    src_train_labels = PSTL_SPLIT_ROOT / "labels" / "train"
+    src_val_labels = PSTL_SPLIT_ROOT / "labels" / "val"
 
     train_pool = list_split_files(src_train_images, src_train_labels)
     val_pool = list_split_files(src_val_images, src_val_labels)
 
     if not train_pool:
-        raise ValueError("No train images found in OOD-split")
+        raise ValueError("No train images found in PSTL-split")
     if not val_pool:
-        raise ValueError("No val images found in OOD-split")
+        raise ValueError("No val images found in PSTL-split")
 
     SUBSETS_ROOT.mkdir(parents=True, exist_ok=True)
 
     date_by_file, class_name = load_date_by_file(COCO_JSON)
 
-    print("Building fine-tuning subsets from OOD-split")
+    print("Building fine-tuning subsets from PSTL-split")
     print(f"Train pool size: {len(train_pool)}")
     print(f"Val pool size: {len(val_pool)}")
     print(f"Subset sizes: {SUBSET_SIZES}")

@@ -13,7 +13,7 @@ from PIL import Image
 
 
 INPUT_CSVS_BY_NAME: dict[str, Path] = {
-    "OOD": Path("validation/fine-tuning/finetuning_oodsplit_test_metrics.csv"),
+    "PSTL": Path("validation/fine-tuning/finetuning_pstlsplit_test_metrics.csv"),
     "Lepinoc": Path("validation/fine-tuning/finetuning_lepinoc_test_metrics.csv"),
 }
 # Per run/case text offset parameters used for trend value labels.
@@ -21,7 +21,7 @@ INPUT_CSVS_BY_NAME: dict[str, Path] = {
 # x_offset is expressed in points (display-space horizontal shift).
 # If a run name is missing here, DEFAULT_OFFSET_PARAMS is used.
 OFFSET_PARAMS_BY_NAME: dict[str, dict[str, float]] = {
-    "OOD": {"y_min": 0.01, "y_span_multiplier": 0.05, "x": -30.0},
+    "PSTL": {"y_min": 0.01, "y_span_multiplier": 0.05, "x": -30.0},
     "Lepinoc": {"y_min": 0.01, "y_span_multiplier": 0.025, "x": -30.0},
 }
 DEFAULT_OFFSET_PARAMS: dict[str, float] = {"y_min": 0.045, "y_span_multiplier": 0.12, "x": 0.0}

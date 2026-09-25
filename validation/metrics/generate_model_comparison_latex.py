@@ -627,8 +627,8 @@ if __name__ == '__main__':
     test_datasets_multiple = {
         'arthro': 'ArthroNat',
         'flatbug': 'flatbug',
-        # 'OOD': 'OOD Dataset',
-        # 'OOD(no_iNat)': 'OOD (no iNaturalist)'
+        # 'PSTL': 'PSTL Dataset',
+        # 'PSTL(no_iNat)': 'PSTL (no iNaturalist)'
     }
 
     # print("\n\n=== Completely separate tables ===")
