@@ -75,10 +75,10 @@ analyze_one_file <- function(csv_path, level, metric) {
 
     colnames(model_data) <- c("number_of_images", "baseline_perf")
 
-    lm_model <- lm(number_of_images ~ baseline_perf, data = model_data)
+    lm_model <- lm(baseline_perf ~ number_of_images, data = model_data)
     lm_summary <- summary(lm_model)
 
-    slope <- unname(coef(lm_model)["baseline_perf"])
+    slope <- unname(coef(lm_model)["number_of_images"])
     intercept <- unname(coef(lm_model)["(Intercept)"])
 
     fstat <- unname(lm_summary$fstatistic["value"])
@@ -114,7 +114,7 @@ write_summary_txt <- function(results_df, out_txt) {
         "SIMPLE LINEAR CORRELATION ANALYSIS (v2)",
         "=======================================",
         paste("Analysis date:", Sys.time()),
-        "Method: lm(number_of_images ~ ArthroNat_metric)",
+        "Method: lm(ArthroNat_metric ~ number_of_images)",
         "Strength rule: R^2 < 0.10 weak, 0.10-0.30 moderate, > 0.30 strong",
         "Note: slope magnitude depends on metric scale; use R^2 for strength.",
         "",
@@ -142,7 +142,7 @@ write_summary_txt <- function(results_df, out_txt) {
 
 run_all_models <- function(
     comparisons_dir = "validation/hierarchical_metrics/comparisons",
-    output_dir = "validation/hierarchical_metrics/correlations_v2",
+    output_dir = "validation/hierarchical_metrics/correlations",
     levels = c("class", "order"),
     metrics = c("F1", "precision", "recall", "mean_IoU")
 ) {
