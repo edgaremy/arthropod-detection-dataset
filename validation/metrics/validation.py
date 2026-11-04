@@ -178,8 +178,8 @@ if __name__ == "__main__":
     
     test_datasets = [
         ("arthro", "dataset"),
-        # ("flatbug", "datasets(others)/flatbug-yolo-split"), # REPLACE with your path for the flatbug dataset
-        # ("PSTL", "datasets(others)/PSTL-split/"), # REPLACE with your path for the PSTL dataset
+        ("flatbug", "datasets(others)/flatbug-yolo-split"),
+        ("PSTL", "datasets(others)/PSTL-split/"),
     ]
     
     compare_models(models, test_datasets, confidence=0.5, IoU_threshold=0.5, output_csv='validation/metrics/model_comparison.csv')

@@ -27,3 +27,6 @@ datasets(others)/flatbug-yolo-split/data.yaml
 datasets(others)/flatbug-yolo-split/images
 datasets(others)/flatbug-yolo-split/labels
 __pycache__
+/weights
+old
+old_theme

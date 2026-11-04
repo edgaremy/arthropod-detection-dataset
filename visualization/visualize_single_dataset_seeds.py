@@ -21,17 +21,17 @@ import matplotlib.image as mpimg
 
 N_ROWS = 5
 TEST_SPLIT = "test"
-INITIAL_SEED = 1
+INITIAL_SEED = 9
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 
 # Select ONE dataset at a time by uncommenting exactly one block.
-DATASET_NAME = "Lepinoc"
-DATASET_ROOT = REPO_ROOT / "datasets(others)" / "Lepinoc"
+# DATASET_NAME = "Lepinoc"
+# DATASET_ROOT = REPO_ROOT / "datasets(others)" / "Lepinoc"
 
-# DATASET_NAME = "ArthroNat"
-# DATASET_ROOT = REPO_ROOT / "dataset"
+DATASET_NAME = "ArthroNat"
+DATASET_ROOT = REPO_ROOT / "dataset"
 
 # DATASET_NAME = "flatbug"
 # DATASET_ROOT = Path("datasets(others)/flatbug-yolo-split")

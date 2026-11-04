@@ -150,7 +150,7 @@ plot_model_comparison <- function(csv_path, test_dataset, metric = "F1", output_
 
 # Example usage:
 
-plot_model_comparison('validation/flatbug/model_comparison.csv', 'arthro', 'F1', 'validation/flatbug/plots/arthro_f1_comparison.png')
-plot_model_comparison('validation/flatbug/model_comparison.csv', 'flatbug', 'F1', 'validation/flatbug/plots/flatbug_f1_comparison.png')
-plot_model_comparison('validation/flatbug/model_comparison.csv', 'arthro', 'mean_IoU', 'validation/flatbug/plots/arthro_mean_iou_comparison.png')
-plot_model_comparison('validation/flatbug/model_comparison.csv', 'flatbug', 'mean_IoU', 'validation/flatbug/plots/flatbug_mean_iou_comparison.png')
+plot_model_comparison('validation/metrics/model_comparison.csv', 'arthro', 'F1', 'validation/metrics/plots/arthro_f1_comparison.png')
+plot_model_comparison('validation/metrics/model_comparison.csv', 'flatbug', 'F1', 'validation/metrics/plots/flatbug_f1_comparison.png')
+plot_model_comparison('validation/metrics/model_comparison.csv', 'arthro', 'mean_IoU', 'validation/metrics/plots/arthro_mean_iou_comparison.png')
+plot_model_comparison('validation/metrics/model_comparison.csv', 'flatbug', 'mean_IoU', 'validation/metrics/plots/flatbug_mean_iou_comparison.png')

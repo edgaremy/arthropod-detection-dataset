@@ -20,7 +20,7 @@ import matplotlib.image as mpimg
 
 # User-configurable deterministic seeds (one per dataset column).
 DATASET_SEEDS = {
-	"ArthroNat": 8, #8
+	"ArthroNat": 9, #9
 	"flatbug": 0,
 	"PSTL": 2,
 	"Lepinoc": 83, #25, 83

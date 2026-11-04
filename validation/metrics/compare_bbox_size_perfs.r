@@ -348,24 +348,24 @@ plot_bbox_size_metrics <- function(csv_path, output, metric = 'IoU') {
 # Example: Compare flatbug and mosaicing scenarios for F1 metric on our dataset
 scenario_names <- c("ArthroNat mosaic2x2", "flatbug", "ArthroNat+flatbug", "ArthroNat mosaic3x3", "ArthroNat mosaic4x4", "ArthroNat no mosaic")
 csv_paths <- c(
-    'validation/flatbug/validation_arthro.csv',
-    'validation/flatbug/validation_flatbug.csv',
-    'validation/flatbug/validation_arthro_and_flatbug.csv',
-    'validation/flatbug/validation_arthro_mosaic_33.csv',
-    'validation/flatbug/validation_arthro_mosaic_44.csv',
-    'validation/flatbug/validation_arthro_nomosaic.csv'
+    'validation/metrics/validation_arthro.csv',
+    'validation/metrics/validation_flatbug.csv',
+    'validation/metrics/validation_arthro_and_flatbug.csv',
+    'validation/metrics/validation_arthro_mosaic_33.csv',
+    'validation/metrics/validation_arthro_mosaic_44.csv',
+    'validation/metrics/validation_arthro_nomosaic.csv'
 )
 result <- plot_multiple_scenarios_bbox_size_metrics(
     scenario_names = scenario_names,
     csv_paths = csv_paths,
-    output = 'validation/flatbug/plots/compare_bbox_size_F1.png',
+    output = 'validation/metrics/plots/compare_bbox_size_F1.png',
     metric = 'F1',
     test_dataset_name = "ArthroNat"
 )
 result <- plot_multiple_scenarios_bbox_size_metrics(
     scenario_names = scenario_names,
     csv_paths = csv_paths,
-    output = 'validation/flatbug/plots/compare_bbox_size_IoU.png',
+    output = 'validation/metrics/plots/compare_bbox_size_IoU.png',
     metric = 'IoU',
     test_dataset_name = "ArthroNat"
 )
@@ -373,24 +373,24 @@ result <- plot_multiple_scenarios_bbox_size_metrics(
 # Example: Compare flatbug and mosaicing scenarios for F1 metric on flatbug test dataset
 scenario_names <- c("ArthroNat mosaic2x2", "flatbug", "ArthroNat+flatbug", "ArthroNat mosaic3x3", "ArthroNat mosaic4x4", "ArthroNat no mosaic")
 csv_paths <- c(
-    'validation/flatbug/validation(fb)_arthro.csv',
-    'validation/flatbug/validation(fb)_flatbug.csv',
-    'validation/flatbug/validation(fb)_arthro_and_flatbug.csv',
-    'validation/flatbug/validation(fb)_arthro_mosaic_33.csv',
-    'validation/flatbug/validation(fb)_arthro_mosaic_44.csv',
-    'validation/flatbug/validation(fb)_arthro_nomosaic.csv'
+    'validation/metrics/validation(fb)_arthro.csv',
+    'validation/metrics/validation(fb)_flatbug.csv',
+    'validation/metrics/validation(fb)_arthro_and_flatbug.csv',
+    'validation/metrics/validation(fb)_arthro_mosaic_33.csv',
+    'validation/metrics/validation(fb)_arthro_mosaic_44.csv',
+    'validation/metrics/validation(fb)_arthro_nomosaic.csv'
 )
 result <- plot_multiple_scenarios_bbox_size_metrics(
     scenario_names = scenario_names,
     csv_paths = csv_paths,
-    output = 'validation/flatbug/plots/compare_bbox_size_F1(fb).png',
+    output = 'validation/metrics/plots/compare_bbox_size_F1(fb).png',
     metric = 'F1',
     test_dataset_name = "flatbug"
 )
 result <- plot_multiple_scenarios_bbox_size_metrics(
     scenario_names = scenario_names,
     csv_paths = csv_paths,
-    output = 'validation/flatbug/plots/compare_bbox_size_IoU(fb).png',
+    output = 'validation/metrics/plots/compare_bbox_size_IoU(fb).png',
     metric = 'IoU',
     test_dataset_name = "flatbug"
 )

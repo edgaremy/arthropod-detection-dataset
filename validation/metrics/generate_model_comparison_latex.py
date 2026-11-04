@@ -591,7 +591,7 @@ def generate_model_comparison_table(csv_path, model_names, metrics, test_dataset
 
 if __name__ == '__main__':
     # Example usage using the attached sample CSV
-    csv_path = 'validation/metrics/model_comparison(all).csv'
+    csv_path = 'validation/metrics/model_comparison.csv'
     
     # Example 1: Using lists (original behavior)
     scenarios_list = [
