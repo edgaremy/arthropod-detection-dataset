@@ -1,4 +1,4 @@
-path: /media/disk2/arthropod-detection-dataset/datasets(others)/PSTL-split
+path: /media/eremy/451cfe78-3116-407a-bf7f-4f376a566e4e/arthropod-detection-dataset/datasets(others)/PSTL-split
 train: images/train/
 val: images/val/
 test: images/test/

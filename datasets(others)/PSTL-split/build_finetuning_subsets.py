@@ -18,6 +18,7 @@ Selection strategy (diversity-oriented):
 from __future__ import annotations
 
 import json
+import os
 import shutil
 from datetime import datetime
 from pathlib import Path
@@ -217,7 +218,8 @@ def choose_time_diverse_files_for_fold(
 
 def symlink_file(src: Path, dst: Path) -> None:
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.symlink_to(src.resolve())
+    # Relative symlink so the tree stays valid if the repo is moved.
+    dst.symlink_to(os.path.relpath(src, dst.parent))
 
 
 def date_coverage_summary(file_names: list[str], date_by_file: dict[str, datetime]) -> str:

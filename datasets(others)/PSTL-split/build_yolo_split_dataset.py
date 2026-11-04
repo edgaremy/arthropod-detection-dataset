@@ -165,7 +165,8 @@ def main() -> None:
             continue
 
         if SYMLINK_IMAGES:
-            dst_img.symlink_to(src_img)
+            # Relative symlink so the tree stays valid if the repo is moved.
+            dst_img.symlink_to(os.path.relpath(src_img, dst_img.parent))
         else:
             shutil.copy2(src_img, dst_img)
         copied_or_linked += 1
