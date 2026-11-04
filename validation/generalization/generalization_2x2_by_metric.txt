@@ -1,0 +1,7 @@
+ArthroNat 2x2 model - performances on generalization test sets
+Test dataset          F1-score   Precision      Recall    mean IoU
+------------------------------------------------------------------
+Same species              0.89        0.92        0.89        0.82
+Same genus                0.93        0.94        0.92        0.85
+Other genus               0.92        0.94        0.91        0.84
+Other families            0.91        0.93        0.91        0.84

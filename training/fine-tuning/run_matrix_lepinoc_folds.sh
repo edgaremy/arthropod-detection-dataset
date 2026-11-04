@@ -6,7 +6,7 @@ cd "$(dirname "$0")/../.."
 read -r -a MODES_ARR <<< "${MODES:-transfer scratch}"
 read -r -a SIZES_ARR <<< "${SIZES:-100 500 1000 2000}"
 read -r -a FOLDS_ARR <<< "${FOLDS:-0 1 2 3 4}"
-read -r -a DEVICE_ARR <<< "${DEVICES:-0 1}"
+read -r -a DEVICE_ARR <<< "${DEVICES:-0}"
 
 EPOCHS="${EPOCHS:-20}"
 WARMUP_EPOCHS="${WARMUP_EPOCHS:-0}"

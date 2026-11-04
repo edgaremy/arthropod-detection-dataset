@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from ultralytics import YOLO
 
 # Path to your YAML config file
@@ -10,8 +12,8 @@ model = YOLO('yolo11l.pt') # Use a pre-trained model
 model.train(
     data=data_yaml,
     epochs=100,         # Set the number of epochs as needed
-    project='runs/' + project,
-    device= ['0'],
+    project=str(Path('runs', project).resolve()),
+    # device= ['0'],
     mosaic=0.0          # Disable mosaic augmentation
 )
 
@@ -19,7 +21,7 @@ model.train(
 # model = YOLO('runs/' + project + '/train/weights/best.pt')
 # model.val(
 #     data=data_yaml,
-#     project='runs/' + project,
+#     project=str(Path('runs', project).resolve()),
 #     device= ['0', '1'],
 #     split='test'
 # )

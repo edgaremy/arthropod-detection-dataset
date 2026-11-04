@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lrf", type=float, default=0.01)
     parser.add_argument("--freeze", type=int, default=10)
 
-    parser.add_argument("--device", nargs="+", default=["0", "1"])
+    parser.add_argument("--device", nargs="+", default=["0"])
     parser.add_argument("--base-model", default="yolo11l.pt")
     parser.add_argument(
         "--transfer-weights",
@@ -63,7 +63,8 @@ def build_paths(args: argparse.Namespace) -> tuple[Path, Path, str]:
         raise FileNotFoundError(f"Subset YAML not found: {dataset_yaml}")
 
     run_name = f"{args.mode}_11l_{subset_name}"
-    project_dir = Path(args.project_root) / run_name
+    # Absolute path: recent ultralytics nests relative projects under runs/<task>/.
+    project_dir = (Path(args.project_root) / run_name).resolve()
 
     return dataset_yaml, project_dir, run_name
 

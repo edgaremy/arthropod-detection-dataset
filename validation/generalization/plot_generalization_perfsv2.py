@@ -149,9 +149,39 @@ def plot_2x2_by_metric(csv_path, output, figsize=(12, 8), bar_width=0.18):
     plt.close()
 
 
+def write_2x2_metric_table(csv_path, output):
+    """
+    Write a text table of ArthroNat 2x2 performances across generalization test sets,
+    mirroring the by-metric plot.
+    """
+    df = _get_2x2_df(csv_path)
+
+    metrics = ["F1-score", "Precision", "Recall", "mean IoU"]
+    columns = ["avg_F1", "avg_precision", "avg_recall", "avg_mean_IoU"]
+
+    header = f"{'Test dataset':<18}" + "".join(f"{m:>12}" for m in metrics)
+    lines = [
+        "ArthroNat 2x2 model - performances on generalization test sets",
+        header,
+        "-" * len(header),
+    ]
+    for _, row in df.iterrows():
+        lines.append(
+            f"{row['test_dataset_label']:<18}"
+            + "".join(f"{row[c]:>12.2f}" for c in columns)
+        )
+
+    with open(output, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
 if __name__ == "__main__":
     csv_path = "validation/generalization/model_comparison.csv"
     out_metric = "validation/generalization/generalization_2x2_by_metric.png"
+    out_table = "validation/generalization/generalization_2x2_by_metric.txt"
 
     plot_2x2_by_metric(csv_path, out_metric)
     print(f"Generated plot: {out_metric}")
+
+    write_2x2_metric_table(csv_path, out_table)
+    print(f"Generated table: {out_table}")

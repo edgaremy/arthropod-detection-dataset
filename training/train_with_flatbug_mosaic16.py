@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from ultralytics import YOLO
 from ultralytics.data.augment import Mosaic
 from ultralytics.models.yolo.detect.train import DetectionTrainer
@@ -61,7 +63,7 @@ model = YOLO('yolo11l.pt')
 train_params = {
     'data': data_yaml,
     'epochs': 100,
-    'project': 'runs/' + project,
+    'project': str(Path('runs', project).resolve()),
     'device': 0,  # Use device 0
     'mosaic': 1.0,  # Enable mosaic augmentation
     'model': 'yolo11l.pt',  # Specify the model for the trainer

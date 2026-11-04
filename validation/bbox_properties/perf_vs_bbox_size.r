@@ -106,19 +106,24 @@ load_validation_data <- function(scenario_names, csv_paths) {
 # ── shared theme ─────────────────────────────────────────────────────────────
 
 bbox_theme <- function() {
-    theme_classic() +
+    theme_minimal(base_size = 14) +
     theme(
-        text             = element_text(size = 14, color = "#333333"),
-        axis.text        = element_text(size = 12, color = "#333333"),
+        text             = element_text(size = 14, color = "#333333",
+                                        family = "Nimbus Sans"),
+        axis.text        = element_text(size = 12, color = "#333333",
+                                        family = "Nimbus Sans"),
         axis.title       = element_text(size = 14),
         axis.text.x      = element_text(angle = 30, hjust = 1),
         legend.position  = "right",
         legend.title     = element_text(size = 13),
         legend.text      = element_text(size = 11),
-        legend.background = element_rect(fill = "#f5f5f5", color = "gray80",
+        legend.background = element_rect(fill = "#f5f5f5", color = "white",
                                          linewidth = 0.4),
-        panel.grid.major.y = element_line(color = "grey92", linewidth = 0.3),
-        panel.grid.major.x = element_line(color = "grey92", linewidth = 0.3),
+        # light grey panel with white gridlines: same as the matplotlib paper plots
+        # (ggplot2 linewidth is in mm; 0.3 mm ~ 0.85 pt, matching the 0.8 pt
+        # white gridlines of the matplotlib figures)
+        panel.background = element_rect(fill = "#f5f5f5", color = NA),
+        panel.grid.major = element_line(color = "white", linewidth = 0.3),
         panel.grid.minor = element_blank(),
         plot.margin      = margin(12, 12, 12, 12)
     )
@@ -166,7 +171,7 @@ plot_binned_perf <- function(data, x_label, y_label, output_path,
 
     p <- ggplot(summary_data, aes(x = factor(bin), y = mean_val,
                                   colour = scenario, group = scenario)) +
-        geom_line(position = pd, linewidth = 0.7, alpha = 0.6) +
+        geom_line(position = pd, linewidth = 0.7) +
         geom_errorbar(aes(ymin = lower, ymax = upper),
                       width = 0.4, position = pd, linewidth = 0.7) +
         geom_point(position = pd, size = 2.5) +
@@ -234,8 +239,13 @@ p_f1 <- plot_binned_perf(
 )
 
 combined_path <- "validation/bbox_properties/plots/perf_vs_bbox_size_combined.png"
+# arrangeGrob measures its grobs on the current device; without an open device
+# R silently starts a pdf device (Rplots.pdf), which cannot resolve the
+# Nimbus Sans family. Open an off-screen cairo device instead.
+grDevices::png(tempfile(fileext = ".png"), width = 100, height = 100)
 arr <- arrangeGrob(p_f1, p_iou, ncol = 1)
 ggsave(combined_path, plot = arr, width = 11, height = 12, dpi = 300)
+grDevices::dev.off()
 cat(sprintf("Saved: %s\n", combined_path))
 
 cat("\nDone.\n")

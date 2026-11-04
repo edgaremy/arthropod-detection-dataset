@@ -3,23 +3,26 @@ import ast
 import os
 
 def calculate_metrics(group):
-    TP = group['TP'].sum()
-    FP = group['FP'].sum()
-    FN = group['FN'].sum()
-    group['IoUs'] = group['IoUs'].apply(lambda x: ast.literal_eval(x))
-    IoUs = group['IoUs'].sum()
-
-    precision = TP / (TP + FP) if (TP + FP) > 0 else 0
-    recall = TP / (TP + FN) if (TP + FN) > 0 else 0
-    mean_IoU = sum(IoUs) / len(IoUs) if len(IoUs) > 0 else 0
-    F1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+    # Per-image averaging: use pre-computed per-image metrics from validation CSV
+    metrics = {
+        'F1': group['F1'].mean(),
+        'precision': group['precision'].mean(),
+        'recall': group['recall'].mean(),
+        'mean_IoU': group['mean_IoU'].mean(),
+    }
     
-    return pd.Series({
-        'precision': precision,
-        'recall': recall,
-        'mean_IoU': mean_IoU,
-        'F1': F1
+    # Add uncertainty: standard deviation across images
+    metrics.update({
+        'std_F1': group['F1'].std(),
+        'std_precision': group['precision'].std(),
+        'std_recall': group['recall'].std(),
+        'std_mean_IoU': group['mean_IoU'].std(),
     })
+    
+    # Sample size (number of images in this taxonomic group)
+    metrics['count'] = len(group)
+    
+    return pd.Series(metrics)
 
 def hierarchical_benchmark(csv_path, blacklist=None):
     df = pd.read_csv(csv_path)
@@ -32,7 +35,6 @@ def hierarchical_benchmark(csv_path, blacklist=None):
     results = {}
     for level in ['class', 'order', 'family', 'genus', 'specie']:
         grouped = df.groupby(level, group_keys=False).apply(calculate_metrics, include_groups=False).reset_index()
-        grouped['count'] = df.groupby(level).size().values
         results[level] = grouped
     
     return results
@@ -50,15 +52,32 @@ def export_metrics_to_csv(results, level, output_path, sort_by='count', ascendin
     """
     data = results[level].copy()
     
-    # Reorder columns for better readability first
-    column_order = [level, 'count', 'F1', 'precision', 'recall', 'mean_IoU']
+    # Reorder columns for better readability
+    column_order = [
+        level, 'count', 
+        'F1', 'std_F1', 
+        'precision', 'std_precision', 
+        'recall', 'std_recall', 
+        'mean_IoU', 'std_mean_IoU'
+    ]
+    
+    # Only include columns that exist
+    column_order = [c for c in column_order if c in data.columns]
     data = data[column_order]
     
+    # Fill NaN std with 0.00 (for groups with only 1 image)
+    std_columns = ['std_F1', 'std_precision', 'std_recall', 'std_mean_IoU']
+    for col in std_columns:
+        if col in data.columns:
+            data[col] = data[col].fillna(0.00)
+    
     # Round numeric values for cleaner output
-    numeric_columns = ['F1', 'precision', 'recall', 'mean_IoU']
+    numeric_columns = ['F1', 'std_F1', 'precision', 'std_precision', 
+                       'recall', 'std_recall', 'mean_IoU', 'std_mean_IoU']
+    numeric_columns = [c for c in numeric_columns if c in data.columns]
     data[numeric_columns] = data[numeric_columns].round(4)
     
-    # Sort the data by count (number of images) in descending order - do this LAST
+    # Sort the data by count (number of images) in descending order
     data = data.sort_values(by='count', ascending=False).reset_index(drop=True)
     
     # Save to CSV
@@ -91,8 +110,8 @@ def export_all_metrics(results, output_dir, model_name='model'):
     print(f"EXPORTING HIERARCHICAL METRICS TO CSV")
     print(f"{'='*60}\n")
     
-    # Export each taxonomic level (we only need class and order)
-    for level in ['class', 'order']:
+    # Export each taxonomic level (class, order, and all others for supplementary)
+    for level in ['class', 'order', 'family', 'genus', 'specie']:
         output_path = os.path.join(output_dir, f'metrics_{level}_{model_name}.csv')
         export_metrics_to_csv(results, level, output_path, sort_by='count', ascending=False)
     

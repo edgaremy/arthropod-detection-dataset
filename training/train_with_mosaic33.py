@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from ultralytics import YOLO
 from ultralytics.data.augment import Mosaic
 from ultralytics.models.yolo.detect.train import DetectionTrainer
@@ -62,8 +64,8 @@ if mosaic_type == '3x3':
     train_params = {
         'data': data_yaml,
         'epochs': 100,
-        'project': 'runs/' + project,
-        'device': 1,  # Use single GPU to avoid DDP serialization issues
+        'project': str(Path('runs', project).resolve()),
+        # 'device': 1,  # Use single GPU to avoid DDP serialization issues
         'mosaic': 1.0,  # Enable mosaic augmentation
         'model': 'yolo11l.pt',  # Specify the model for the trainer
     }
@@ -77,8 +79,8 @@ else:
     train_params = {
         'data': data_yaml,
         'epochs': 100,
-        'project': 'runs/' + project,
-        'device': ['0', '1'],
+        'project': str(Path('runs', project).resolve()),
+        # 'device': ['0', '1'],
         'mosaic': 1.0,  # Enable mosaic augmentation (default 2x2)
     }
     print("Training with default 2x2 mosaicing")

@@ -119,8 +119,10 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
     for plot_idx, (title, columns, position) in enumerate(metrics):
         ax = axs[position[0], position[1]]
 
-        color = "#536fc3"
-        color_background = "#956fec"
+        # ArthroNat-only models use the blue palette shared with the other
+        # paper figures (mosaic2x2 = #6baed6, see perf_vs_bbox_size.r)
+        color = "#6baed6"
+        color_background = "#6baed6"
 
 
         if isinstance(columns, list):  # Handle multiple curves (e.g., mAP)
@@ -153,13 +155,13 @@ def plot_bootstrap_metrics(metrics_csv: str, show_map_fitness=True, output_path=
         # Change x axis tick labels
         n_img_wave = 13661 / 20
         x_labels = [n_img_wave * i for i in range(1, len(wave_numbers) + 1)]
-        ticks_labels = [700, 5000, 10000, 13661]
+        ticks_labels = [700, 2000, 5000, 10000, 13661]
         max_label = 13661
         ticks = [label / max_label * max(wave_numbers) for label in ticks_labels]
         ax.set_xticks(ticks)
         ax.set_xticklabels([f'{label/1000:.1f}' for label in ticks_labels])
 
-        ax.set_facecolor('#f0f0f0') # grey background
+        ax.set_facecolor('#f5f5f5') # light grey background
         ax.set_xlabel('Image quantity (in thousands)')
         ax.set_ylabel(title)
         ax.set_ylim(ymin, ymax)

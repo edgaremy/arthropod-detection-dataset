@@ -5,6 +5,7 @@ from collections import defaultdict
 from pathlib import Path
 import re
 
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import numpy as np
@@ -86,8 +87,11 @@ def _plot_metric(
     legend_fs = 15
 
     color_by_scenario = {
-        "arthro+flatbug": "tab:blue",
-        "fromscratch": "tab:orange",
+        # Green = ArthroNat+flatbug model (same color as in perf_vs_bbox_size.r)
+        "arthro+flatbug": "#31a354",
+        # Orange-red = external baseline (Ultralytics COCO pre-trained),
+        # same hue as the flatbug-only scenario of perf_vs_bbox_size.r
+        "fromscratch": "#e6550d",
     }
     label_by_scenario = {
         "arthro+flatbug": "ArthroNat+flatbug",
@@ -238,12 +242,16 @@ def _plot_metric(
 
     plt.xlabel("Number of images used for fine-tuning", fontsize=label_fs)
     plt.ylabel(ylabel, fontsize=label_fs)
-    plt.grid(True, alpha=0.3)
+    ax = plt.gca()
+    ax.set_facecolor('#f5f5f5')  # light grey background, same as the other paper plots
+    ax.grid(which='major', linestyle='-', linewidth=0.8, color='white')  # white grid lines, same weight as the other paper plots
+    ax.set_axisbelow(True)  # grid lines are behind the boxes
+    ax.tick_params(which='both', direction='in', length=0)  # remove small ticks next to the numbers
+    ax.tick_params(axis='both', which='major', pad=10)  # numbers further from the axis
     plt.xticks(group_positions, [str(x) for x in x_sizes], rotation=0, ha="center", fontsize=tick_fs)
     plt.yticks(fontsize=tick_fs)
-    ax = plt.gca()
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
 
     legend_handles = [
         plt.Line2D([0], [0], color=color_by_scenario.get(s, "tab:gray"), lw=8, alpha=0.5)

@@ -41,16 +41,16 @@ model.train(
 	freeze=10,
 	project="runs/fine_tuning/experiment",
 	name="train3",
-	device=["0", "1"],
+	# device=["0", "1"],
 )
 
 # Validate on PSTL test split.
-best_weights = Path("runs/fine_tuning/experiment") / "train3" / "weights" / "best.pt"
+best_weights = Path("runs/fine_tuning/experiment").resolve() / "train3" / "weights" / "best.pt"
 model = YOLO(str(best_weights))
 model.val(
 	data="datasets(others)/PSTL-split/PSTL-split.yaml",
-	project="runs/fine_tuning/experiment",
+	project=str(Path("runs/fine_tuning/experiment").resolve()),
 	name="val_common_test3",
-	device=["0", "1"],
+	# device=["0", "1"],
 	split="test",
 )
